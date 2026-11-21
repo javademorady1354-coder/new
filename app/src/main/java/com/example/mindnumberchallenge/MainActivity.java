@@ -18,26 +18,28 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         webView = new WebView(this);
-        webView.setBackgroundColor(0xFF0B1324);
+        webView.setBackgroundColor(0xFF101827);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(false);
+        settings.setJavaScriptCanOpenWindowsAutomatically(false);
+        settings.setSupportMultipleWindows(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         setContentView(webView);
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || webView.restoreState(savedInstanceState) == null) {
             webView.loadUrl("file:///android_asset/index.html");
-        } else {
-            webView.restoreState(savedInstanceState);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         if (webView != null) webView.saveState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -48,7 +50,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (webView != null) webView.destroy();
+        if (webView != null) {
+            webView.stopLoading();
+            webView.destroy();
+            webView = null;
+        }
         super.onDestroy();
     }
 }
