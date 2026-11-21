@@ -5,17 +5,17 @@
 <title>بازی تقویت ذهن</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial;background:linear-gradient(145deg,#edf4ff,#f8fbff);color:#183153;min-height:100vh}
-.wrap{max-width:520px;margin:auto;padding:18px}.panel{background:white;border-radius:22px;padding:20px;box-shadow:0 8px 28px #17365d18;margin:12px 0}
-h1{text-align:center;font-size:25px;margin:10px 0;color:#164a82}.sub{text-align:center;color:#64748b;font-size:14px}
+.wrap{width:100%;max-width:520px;margin:auto;padding:6px 8px}.panel{background:white;border-radius:15px;padding:10px;box-shadow:0 4px 16px #17365d12;margin:7px 0}
+h1{text-align:center;font-size:20px;margin:4px 0;color:#164a82}.sub{text-align:center;color:#64748b;font-size:12px}
 .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-select,button{font:inherit;border:0;border-radius:12px;padding:12px 16px}select{background:#edf4ff;color:#183153;flex:1;min-width:130px}
+select,button{font:inherit;border:0;border-radius:9px;padding:8px 10px}select{background:#edf4ff;color:#183153;flex:1;min-width:100px}
 button{background:#1769aa;color:white;font-weight:bold;cursor:pointer}.secondary{background:#e7f0fa;color:#164a82}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.stat{background:#f2f7fc;border-radius:14px;padding:12px 4px}.stat b{display:block;font-size:23px;color:#1769aa;margin-top:5px}
-#board{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:18px}
-.cell{aspect-ratio:1;border:2px solid #b7d0e8;border-radius:13px;background:#f9fcff;color:#174a78;font-size:clamp(18px,5vw,25px);font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;text-align:center}.stat{background:#f2f7fc;border-radius:9px;padding:6px 2px;font-size:11px}.stat b{display:block;font-size:18px;color:#1769aa;margin-top:2px}
+#board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:9px}
+.cell{aspect-ratio:1;min-width:0;padding:0;border:1.5px solid #b7d0e8;border-radius:8px;background:#f9fcff;color:#174a78;font-size:clamp(12px,3.8vw,18px);font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
 .cell.done{background:#d9f4e5;border-color:#62bd8b;color:#207448}.cell.wrong{background:#ffe5e5;border-color:#e58b8b}
-#message{text-align:center;min-height:26px;font-weight:bold;color:#1769aa;margin-top:14px}.actions{display:flex;gap:10px;margin-top:14px}.actions button{flex:1}
-.note{font-size:12px;color:#718096;text-align:center;line-height:1.8}
+#message{text-align:center;min-height:20px;font-size:12px;font-weight:bold;color:#1769aa;margin-top:7px}.actions{display:flex;gap:6px;margin-top:7px}.actions button{flex:1;font-size:12px;padding:7px 5px}
+.note{font-size:10px;color:#718096;text-align:center;line-height:1.4;margin:5px 0}
 </style></head><body><main class="wrap">
 <h1>🧠 بازی تقویت ذهن</h1><div class="sub">اعداد را به ترتیب از کوچک به بزرگ انتخاب کن</div>
 <section class="panel"><div class="row"><label for="level">تعداد اعداد:</label>
@@ -30,7 +30,7 @@ const $=id=>document.getElementById(id);let numbers=[],next=1,time=20,timer=null
 function bestKey(){return 'best_'+$('level').value}function showBest(){$('best').textContent=localStorage.getItem(bestKey())||0}
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function stop(){if(timer){clearInterval(timer);timer=null}playing=false}
-function start(){stop();const n=+$('level').value;numbers=shuffle(Array.from({length:n},(_,i)=>i+1));next=1;time=20;score=0;playing=true;
+function start(){stop();const n=+$('level').value;$('board').style.gridTemplateColumns='repeat('+Math.ceil(n/5)+',minmax(0,1fr))';numbers=shuffle(Array.from({length:n},(_,i)=>i+1));next=1;time=20;score=0;playing=true;
 $('time').textContent=time;$('next').textContent=next;$('message').textContent='از عدد 1 شروع کن!';$('board').innerHTML='';
 numbers.forEach(v=>{let b=document.createElement('button');b.className='cell';b.textContent=v;b.type='button';b.addEventListener('click',()=>pick(b,v));$('board').appendChild(b)});
 timer=setInterval(()=>{time--;$('time').textContent=time;if(time<=0){stop();$('message').textContent='زمان تمام شد! امتیاز شما: '+score+' از '+n;$('board').querySelectorAll('button').forEach(b=>b.disabled=true)}},1000);showBest()}
