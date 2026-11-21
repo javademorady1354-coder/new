@@ -14,7 +14,7 @@
 (()=>{'use strict';
 const colors=[{id:'red',name:'قرمز',hex:'#ef4444'},{id:'green',name:'سبز',hex:'#22c55e'},{id:'blue',name:'آبی',hex:'#3b82f6'},{id:'yellow',name:'زرد',hex:'#facc15'},{id:'purple',name:'بنفش',hex:'#c084fc'}];
 const $=id=>document.getElementById(id);
-const fa=n=>String(Math.max(0,Math.ceil(n))).replace(/\\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const fa=n=>String(Math.max(0,Math.ceil(n))).replace(/[0-9]/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 let seconds=20,score=0,best=Number(localStorage.getItem('colorChallengeStandaloneBest')||0),stage=1,index=0,current=null,active=false,paused=false,remaining=20000,deadline=0,timer=null,items=[];
 $('best').textContent=fa(best);
 function update(){ $('score').textContent=fa(score);$('best').textContent=fa(best);$('stage').textContent=fa(stage)+' / ۵';$('time').textContent=fa(Math.ceil(remaining/1000));$('stageLabel').textContent='مرحله '+fa(stage)+' · پاسخ '+fa(index+1)+' از ۳۰'; }
