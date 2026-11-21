@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#101827"><title>به‌روزرسانی برنامه</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:14px;background:radial-gradient(circle at top,#263d5b,#101827 70%);color:#f5f8fc;font-family:Tahoma,Arial,sans-serif}
+main{max-width:580px;margin:auto}.back{display:inline-block;color:#d7e5f7;text-decoration:none;background:#30445f;border:1px solid #526985;padding:9px 12px;border-radius:10px;font-size:12px}
+.panel{background:#1c293b;border:1px solid #405875;border-radius:17px;padding:17px;margin-top:14px}h1{text-align:center;font-size:22px;margin:12px 0}.muted{color:#a9b8ca;font-size:12px;line-height:1.9;text-align:center}
+button,.download{display:block;width:100%;border:0;border-radius:12px;padding:13px;background:#65d6ad;color:#10251e;font:bold 14px Tahoma;text-align:center;text-decoration:none;margin-top:12px}
+#status{margin-top:15px;min-height:45px;text-align:center;color:#ffd166;font-size:13px;line-height:1.9}
+.small{font-size:11px;color:#8fa3bb;line-height:1.9;margin-top:16px}
+</style></head><body><main>
+<a class="back" href="index.html">‹ بازگشت به بازی‌ها</a>
+<section class="panel"><div style="font-size:38px;text-align:center">⬆️</div><h1>بررسی نسخه جدید</h1><p class="muted">نسخه نصب‌شده: ۲٫۲<br>برای بررسی نسخه منتشرشده، اینترنت را روشن کنید.</p>
+<button id="check">بررسی به‌روزرسانی</button><div id="status" aria-live="polite">برای شروع، دکمه بررسی را بزنید.</div><a id="download" class="download" href="https://github.com/javademorady1354-coder/new/releases/latest" style="display:none" target="_blank" rel="noopener">مشاهده و دریافت نسخه جدید در گیت‌هاب</a>
+<p class="small">به‌روزرسانی به‌صورت خودکار نصب نمی‌شود. پس از دریافت فایل APK، نصب آن باید با تأیید خودتان انجام شود. اگر هنوز نسخه‌ای در بخش Releases منتشر نشده باشد، نتیجه‌ای برای نمایش وجود ندارد.</p></section>
+</main>
+<script>
+(function(){
+const status=document.getElementById('status');
+const button=document.getElementById('check');
+const link=document.getElementById('download');
+const installed='2.2';
+button.addEventListener('click',async function(){
+ button.disabled=true;link.style.display='none';status.textContent='در حال بررسی نسخه منتشرشده...';
+ try{
+  const response=await fetch('https://api.github.com/repos/javademorady1354-coder/new/releases/latest',{headers:{Accept:'application/vnd.github+json'}});
+  if(response.status===404){status.textContent='هنوز نسخه‌ای در بخش انتشار گیت‌هاب ثبت نشده است.';return;}
+  if(!response.ok)throw new Error('network');
+  const release=await response.json();
+  const latest=String(release.tag_name||'').replace(/^v/i,'');
+  if(!latest){status.textContent='اطلاعات نسخه معتبر نیست.';return;}
+  if(latest===installed){status.textContent='برنامه شما به‌روز است؛ نسخه '+latest;}
+  else{
+   status.textContent='نسخه منتشرشده: '+latest+' — نسخه فعلی: '+installed+'. برای دریافت، صفحه انتشار را باز کنید.';
+   link.href=release.html_url||'https://github.com/javademorady1354-coder/new/releases/latest';
+   link.style.display='block';
+  }
+ }catch(e){status.textContent='بررسی آنلاین انجام نشد. اتصال اینترنت را بررسی کنید یا صفحه انتشار گیت‌هاب را باز کنید.';link.style.display='block';}
+ finally{button.disabled=false;}
+});
+})();
+</script></body></html>
