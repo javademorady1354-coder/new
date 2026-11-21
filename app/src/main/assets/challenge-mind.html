@@ -11,8 +11,11 @@
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--panel2);border-radius:13px;padding:9px;text-align:center}.stat small{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.stat strong{font-size:20px;font-variant-numeric:tabular-nums}
 .settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}.field select{width:100%;padding:11px;border-radius:11px;border:1px solid #496080;background:#101d33;color:white;font:inherit}
 .question{font-size:clamp(34px,9vw,52px);font-weight:800;text-align:center;direction:ltr;padding:18px 3px 12px;min-height:86px}
-.answer{display:flex;gap:8px;direction:ltr}.answer input{min-width:0;flex:1;background:#0e1a2e;border:2px solid #405675;border-radius:13px;color:white;text-align:center;font-size:25px;padding:11px;font-weight:bold;outline:none}.answer input:focus{border-color:var(--accent)}
-button{border:0;border-radius:13px;padding:12px 15px;font:bold 15px Tahoma;cursor:pointer}.primary{background:var(--accent);color:#09251e}.secondary{background:#314665;color:white}.answer button{min-width:88px}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;direction:ltr}
+.answers button{min-height:58px;background:#314665;color:#fff;border:2px solid #496080;font-size:23px;font-weight:bold}
+.answers button:active{background:var(--accent);color:#09251e}
+.answers button:disabled{opacity:.65}
+button{border:0;border-radius:13px;padding:12px 15px;font:bold 15px Tahoma;cursor:pointer}.primary{background:var(--accent);color:#09251e}.secondary{background:#314665;color:white}
 .actions{display:flex;gap:8px;margin-top:11px}.actions button{flex:1}.feedback{text-align:center;min-height:23px;margin-top:9px;font-size:14px;color:var(--gold)}
 .progress{height:8px;background:#0d192c;border-radius:9px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#56d6b2,#ffd166);transition:width .2s}
 .start{text-align:center}.start p,.note{color:var(--muted);font-size:12px;line-height:1.8;text-align:center}.start button{width:100%;font-size:17px;padding:15px}
@@ -29,7 +32,7 @@ h1{font-size:21px;margin:1px 0 3px}.sub{font-size:11px}
 #setup,#game,#result{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-around;gap:7px}
 #setup.hidden,#game.hidden,#result.hidden{display:none!important}
 .question{font-size:clamp(30px,8vw,44px);min-height:58px;padding:5px 2px;position:sticky;top:0;z-index:2;background:#17243d}
-.answer input{font-size:22px;padding:8px}.answer button{padding:9px 10px}
+.answers button{min-height:48px;font-size:20px;padding:8px 5px}
 .actions{margin-top:4px}.feedback{min-height:18px;margin:2px 0}.progress{margin-top:3px}
 .note{font-size:10px;line-height:1.5;margin:2px 0}
 </style></head>
@@ -43,7 +46,7 @@ h1{font-size:21px;margin:1px 0 3px}.sub{font-size:11px}
 <div class="start"><button class="primary" id="start">شروع بازی</button></div></section>
 <section class="panel hidden" id="game"><div class="question" id="question">12 + 8 = ?</div>
 <div class="stat" style="margin-bottom:9px"><small>زمان سؤال</small><strong id="qtime">5</strong></div>
-<div class="answer"><input id="answer" type="number" inputmode="numeric" autocomplete="off" placeholder="جواب"><button class="primary" id="submit">ثبت جواب</button></div>
+<div class="note">پاسخ درست را از بین گزینه‌ها انتخاب کن:</div><div class="answers" id="answers"></div>
 <div class="feedback" id="feedback" aria-live="polite"></div><div class="progress"><div class="bar" id="bar"></div></div>
 <div class="actions"><button class="secondary" id="skip">رد کردن</button><button class="secondary" id="end">پایان بازی</button></div></section>
 <section class="panel result hidden" id="result"><h2>آفرین! تمرین تمام شد 🌟</h2><div class="big" id="finalScore">0 امتیاز</div><div id="summary"></div><p id="recordText" class="note"></p><button class="primary" id="again">بازی دوباره</button></section>
@@ -54,9 +57,11 @@ const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);const rand=(a,
 function update(){$('score').textContent=fa(score);$('correct').textContent=fa(correct);$('time').textContent=fa(remaining);$('qtime').textContent=fa(qleft);$('bar').style.width=((total-remaining)/total*100)+'%'}
 function question(){clearInterval(qTimer);locked=false;qleft=5;let lv=+$('level').value,m=lv===1?5:lv===2?10:15,mul=lv===1?5:lv===2?10:12,div=lv===1?5:lv===2?10:12,a,b,op,ans;op=['+','−','×','÷'][rand(0,3)];
 if(op==='+'){a=rand(1,m);b=rand(1,m);ans=a+b}else if(op==='−'){a=rand(1,m);b=rand(1,m);if(b>a)[a,b]=[b,a];ans=a-b}else if(op==='×'){a=rand(1,mul);b=rand(1,mul);ans=a*b}else{b=rand(1,div);ans=rand(1,div);a=b*ans}
-current=ans;$('question').textContent=a+' '+op+' '+b+' = ?';$('answer').value='';$('feedback').textContent='';update();$('answer').focus();qTimer=setInterval(()=>{qleft--;update();if(qleft<=0){clearInterval(qTimer);if(!locked){locked=true;$('feedback').textContent='وقت تمام شد! پاسخ: '+fa(current);setTimeout(()=>{if(remaining>0&&!$('game').classList.contains('hidden'))question()},650)}}},1000)}
+current=ans;$('question').textContent=a+' '+op+' '+b+' = ?';$('feedback').textContent='';$('feedback').style.color='var(--gold)';makeOptions(ans);update();qTimer=setInterval(()=>{qleft--;update();if(qleft<=0){clearInterval(qTimer);if(!locked){locked=true;$('feedback').textContent='وقت تمام شد! پاسخ: '+fa(current);setTimeout(()=>{if(remaining>0&&!$('game').classList.contains('hidden'))question()},650)}}},1000)}
+function makeOptions(answer){let opts=new Set([answer]);let spread=Math.max(3,Math.ceil(Math.abs(answer)*.35));while(opts.size<4){let delta=rand(1,spread);let candidate=answer+(Math.random()<.5?-delta:delta);if(candidate>=0&&candidate!==answer)opts.add(candidate)}let arr=[...opts].sort(()=>Math.random()-.5);$('answers').innerHTML='';arr.forEach(n=>{let b=document.createElement('button');b.type='button';b.textContent=fa(n);b.addEventListener('click',()=>submitAnswer(n));$('answers').appendChild(b)})}
+function lockOptions(){document.querySelectorAll('#answers button').forEach(b=>b.disabled=true)}
 function start(){clearInterval(mainTimer);clearInterval(qTimer);score=0;correct=0;total=remaining=+$('duration').value;$('setup').classList.add('hidden');$('result').classList.add('hidden');$('game').classList.remove('hidden');update();question();mainTimer=setInterval(()=>{remaining--;update();if(remaining<=0)finish()},1000)}
-function submit(){if(locked||$('game').classList.contains('hidden'))return;let v=$('answer').value;if(v===''){$('feedback').textContent='جواب را وارد کن';return}locked=true;clearInterval(qTimer);if(+v===current){score+=10;correct++;$('feedback').textContent='✓ درست! +۱۰ امتیاز';$('feedback').style.color='var(--accent)'}else{$('feedback').textContent='پاسخ درست: '+fa(current);$('feedback').style.color='var(--gold)'}update();setTimeout(()=>{if(remaining>0&&!$('game').classList.contains('hidden'))question()},550)}
+function submitAnswer(value){if(locked||$('game').classList.contains('hidden'))return;locked=true;clearInterval(qTimer);lockOptions();if(value===current){score+=10;correct++;$('feedback').textContent='✓ درست! +۱۰ امتیاز';$('feedback').style.color='var(--accent)'}else{$('feedback').textContent='پاسخ درست: '+fa(current);$('feedback').style.color='var(--gold)'}update();setTimeout(()=>{if(remaining>0&&!$('game').classList.contains('hidden'))question()},650)}
 function finish(){clearInterval(mainTimer);clearInterval(qTimer);$('game').classList.add('hidden');$('result').classList.remove('hidden');$('finalScore').textContent=fa(score)+' امتیاز';$('summary').textContent=fa(correct)+' پاسخ صحیح';if(score>record){record=score;localStorage.setItem('mindMathRecord',record);$('recordText').textContent='🎉 رکورد جدید ثبت شد!'}else $('recordText').textContent='رکورد قبلی: '+fa(record)+' امتیاز'}
-$('start').onclick=start;$('again').onclick=start;$('submit').onclick=submit;$('skip').onclick=()=>{if(!locked)question()};$('end').onclick=finish;$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')submit()});update();
+$('start').onclick=start;$('again').onclick=start;$('skip').onclick=()=>{if(!locked){locked=true;clearInterval(qTimer);question()}};$('end').onclick=finish;update();
 </script></body></html>
