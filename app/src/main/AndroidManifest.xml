@@ -4,7 +4,9 @@
     <application
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:label="باشگاه بازی‌های ذهنی"
-        android:allowBackup="true">
+        android:icon="@drawable/ic_launcher"
+        android:allowBackup="true"
+        android:usesCleartextTraffic="false">
         <activity
             android:name=".MainActivity"
             android:exported="true"
