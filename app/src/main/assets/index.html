@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>بازی تقویت ذهن</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial;background:linear-gradient(145deg,#edf4ff,#f8fbff);color:#183153;min-height:100vh}
+.wrap{max-width:520px;margin:auto;padding:18px}.panel{background:white;border-radius:22px;padding:20px;box-shadow:0 8px 28px #17365d18;margin:12px 0}
+h1{text-align:center;font-size:25px;margin:10px 0;color:#164a82}.sub{text-align:center;color:#64748b;font-size:14px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+select,button{font:inherit;border:0;border-radius:12px;padding:12px 16px}select{background:#edf4ff;color:#183153;flex:1;min-width:130px}
+button{background:#1769aa;color:white;font-weight:bold;cursor:pointer}.secondary{background:#e7f0fa;color:#164a82}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.stat{background:#f2f7fc;border-radius:14px;padding:12px 4px}.stat b{display:block;font-size:23px;color:#1769aa;margin-top:5px}
+#board{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:18px}
+.cell{aspect-ratio:1;border:2px solid #b7d0e8;border-radius:13px;background:#f9fcff;color:#174a78;font-size:clamp(18px,5vw,25px);font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.cell.done{background:#d9f4e5;border-color:#62bd8b;color:#207448}.cell.wrong{background:#ffe5e5;border-color:#e58b8b}
+#message{text-align:center;min-height:26px;font-weight:bold;color:#1769aa;margin-top:14px}.actions{display:flex;gap:10px;margin-top:14px}.actions button{flex:1}
+.note{font-size:12px;color:#718096;text-align:center;line-height:1.8}
+</style></head><body><main class="wrap">
+<h1>🧠 بازی تقویت ذهن</h1><div class="sub">اعداد را به ترتیب از کوچک به بزرگ انتخاب کن</div>
+<section class="panel"><div class="row"><label for="level">تعداد اعداد:</label>
+<select id="level"><option value="20">20 عدد</option><option value="25">25 عدد</option><option value="30">30 عدد</option><option value="35">35 عدد</option><option value="40">40 عدد</option></select><button id="start">شروع بازی</button></div></section>
+<section class="panel"><div class="stats">
+<div class="stat">زمان باقی‌مانده<b id="time">20</b></div><div class="stat">عدد بعدی<b id="next">1</b></div><div class="stat">رکورد این مرحله<b id="best">0</b></div></div>
+<div id="board"></div><div id="message">برای شروع، دکمه شروع بازی را بزن.</div>
+<div class="actions"><button class="secondary" id="again">شروع دوباره</button><button class="secondary" id="reset">پاک‌کردن رکوردها</button></div></section>
+<p class="note">بازی کاملاً آفلاین است و رکوردها روی همین دستگاه ذخیره می‌شوند.</p></main>
+<script>
+const $=id=>document.getElementById(id);let numbers=[],next=1,time=20,timer=null,playing=false,score=0;
+function bestKey(){return 'best_'+$('level').value}function showBest(){$('best').textContent=localStorage.getItem(bestKey())||0}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function stop(){if(timer){clearInterval(timer);timer=null}playing=false}
+function start(){stop();const n=+$('level').value;numbers=shuffle(Array.from({length:n},(_,i)=>i+1));next=1;time=20;score=0;playing=true;
+$('time').textContent=time;$('next').textContent=next;$('message').textContent='از عدد 1 شروع کن!';$('board').innerHTML='';
+numbers.forEach(v=>{let b=document.createElement('button');b.className='cell';b.textContent=v;b.type='button';b.addEventListener('click',()=>pick(b,v));$('board').appendChild(b)});
+timer=setInterval(()=>{time--;$('time').textContent=time;if(time<=0){stop();$('message').textContent='زمان تمام شد! امتیاز شما: '+score+' از '+n;$('board').querySelectorAll('button').forEach(b=>b.disabled=true)}},1000);showBest()}
+function pick(btn,v){if(!playing||btn.classList.contains('done'))return;if(v===next){btn.classList.add('done');btn.disabled=true;score++;next++;$('next').textContent=next;
+if(next>numbers.length){stop();$('message').textContent='آفرین! همه اعداد را درست پیدا کردی 🎉';let old=+(localStorage.getItem(bestKey())||0);if(score>old)localStorage.setItem(bestKey(),score);showBest()}}
+else{$('message').textContent='ترتیب درست نیست؛ عدد '+next+' را پیدا کن.';btn.classList.add('wrong');setTimeout(()=>btn.classList.remove('wrong'),250)}}
+$('start').addEventListener('click',start);$('again').addEventListener('click',start);$('level').addEventListener('change',showBest);
+$('reset').addEventListener('click',()=>{if(confirm('همه رکوردها پاک شوند؟')){[20,25,30,35,40].forEach(n=>localStorage.removeItem('best_'+n));showBest();$('message').textContent='رکوردها پاک شدند.'}});showBest();
+</script></body></html>
