@@ -10,7 +10,7 @@ button,.download{display:block;width:100%;border:0;border-radius:12px;padding:13
 .small{font-size:11px;color:#8fa3bb;line-height:1.9;margin-top:16px}
 </style></head><body><main>
 <a class="back" href="index.html">‹ بازگشت به بازی‌ها</a>
-<section class="panel"><div style="font-size:38px;text-align:center">⬆️</div><h1>بررسی نسخه جدید</h1><p class="muted">نسخه نصب‌شده: ۲٫۲<br>برای بررسی نسخه منتشرشده، اینترنت را روشن کنید.</p>
+<section class="panel"><div style="font-size:38px;text-align:center">⬆️</div><h1>بررسی نسخه جدید</h1><p class="muted">نسخه نصب‌شده: ۲٫۳<br>برای بررسی نسخه منتشرشده، اینترنت را روشن کنید.</p>
 <button id="check">بررسی به‌روزرسانی</button><div id="status" aria-live="polite">برای شروع، دکمه بررسی را بزنید.</div><a id="download" class="download" href="https://github.com/javademorady1354-coder/new/releases/latest" style="display:none" target="_blank" rel="noopener">مشاهده و دریافت نسخه جدید در گیت‌هاب</a>
 <p class="small">به‌روزرسانی به‌صورت خودکار نصب نمی‌شود. پس از دریافت فایل APK، نصب آن باید با تأیید خودتان انجام شود. اگر هنوز نسخه‌ای در بخش Releases منتشر نشده باشد، نتیجه‌ای برای نمایش وجود ندارد.</p></section>
 </main>
@@ -19,7 +19,7 @@ button,.download{display:block;width:100%;border:0;border-radius:12px;padding:13
 const status=document.getElementById('status');
 const button=document.getElementById('check');
 const link=document.getElementById('download');
-const installed='2.2';
+const installed='2.3';
 button.addEventListener('click',async function(){
  button.disabled=true;link.style.display='none';status.textContent='در حال بررسی نسخه منتشرشده...';
  try{
