@@ -1,0 +1,31 @@
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#101827"><title>ترتیب اعداد</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#243650,#101827 68%);color:#f5f8fc;font-family:Tahoma,Arial,sans-serif;min-height:100vh;padding:12px}
+main{max-width:600px;margin:auto}.head{text-align:center}.head h1{font-size:25px;margin:7px}.head p{font-size:12px;color:#a9b8ca;line-height:1.8}
+.panel{background:#1c293b;border:1px solid #35465d;border-radius:17px;padding:13px;margin:10px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{background:#111c2c;border-radius:12px;padding:9px;text-align:center}.stat small{display:block;color:#a9b8ca;font-size:11px}.stat b{font-size:20px}
+select,button{font:inherit;border:0;border-radius:11px;padding:11px;background:#30445f;color:#fff}select{width:100%}button.primary{background:#65d6ad;color:#10251e;font-weight:bold}
+#board{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;direction:ltr;margin-top:12px}
+.cell{aspect-ratio:1/1;padding:0;background:#e9f2ff;color:#10233a;font-size:clamp(17px,5vw,23px);font-weight:bold;border:2px solid #9bb8d8;display:grid;place-items:center}
+.cell.done{background:#65d6ad;color:#10251e;opacity:.55}.cell.next{outline:3px solid #ffd166}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.msg{text-align:center;min-height:25px;color:#ffd166;font-size:13px;margin-top:10px}
+.note{font-size:11px;line-height:1.8;color:#a9b8ca;text-align:center}
+</style></head><body><main>
+<header class="head"><div style="font-size:34px">🔢</div><h1>ترتیب اعداد</h1><p>اعداد را که به‌صورت نامنظم چیده شده‌اند، از ۱ به‌ترتیب انتخاب کن.<br>۲۰ ثانیه فرصت داری!</p></header>
+<section class="panel stats"><div class="stat"><small>زمان</small><b id="time">20</b></div><div class="stat"><small>انتخاب درست</small><b id="score">0</b></div><div class="stat"><small>رکورد</small><b id="best">0</b></div></section>
+<section class="panel">
+<label for="max">تعداد اعداد</label><select id="max"><option>20</option><option>25</option><option>30</option><option>35</option><option>40</option></select>
+<div id="board"></div><div class="msg" id="msg">برای شروع، شروع بازی را بزن.</div>
+<div class="controls"><button class="primary" id="start">شروع بازی</button><button id="reset">پاک‌کردن رکورد</button></div>
+</section><div class="note">اعداد انگلیسی هستند. رکورد هر سطح روی همین دستگاه ذخیره می‌شود.</div>
+</main><script>
+(()=>{const $=id=>document.getElementById(id);let total=20,next=1,left=20,score=0,timer=null,playing=false;
+const key=n=>'number-sequence-best-'+n;
+function best(){ $('best').textContent=localStorage.getItem(key(total))||0; }
+function draw(){const vals=Array.from({length:total},(_,i)=>i+1).sort(()=>Math.random()-.5);$('board').innerHTML='';vals.forEach(n=>{const b=document.createElement('button');b.className='cell';b.textContent=n;b.dataset.n=n;b.addEventListener('click',()=>pick(n,b));$('board').appendChild(b)});}
+function start(){clearInterval(timer);total=+$('max').value;next=1;left=20;score=0;playing=true;$('time').textContent=left;$('score').textContent=0;$('msg').textContent='عدد ۱ را پیدا کن و ادامه بده.';draw();timer=setInterval(()=>{left--;$('time').textContent=left;if(left<=0)finish()},1000);best();}
+function pick(n,b){if(!playing)return;if(n===next){b.classList.add('done');b.disabled=true;score++;next++;$('score').textContent=score;if(next>total){finish(true)}else{$('msg').textContent='آفرین! عدد بعدی: '+next;}}else{$('msg').textContent='ترتیب را رعایت کن؛ عدد بعدی '+next+' است.';}}
+function finish(won=false){if(!playing)return;playing=false;clearInterval(timer);$('msg').textContent=won?'عالی! همه اعداد را به‌ترتیب پیدا کردی.':'زمان تمام شد! امتیاز شما: '+score;const old=+(localStorage.getItem(key(total))||0);if(score>old)localStorage.setItem(key(total),score);best();}
+$('start').addEventListener('click',start);$('max').addEventListener('change',()=>{total=+$('max').value;best();$('board').innerHTML='';$('msg').textContent='برای شروع، شروع بازی را بزن.'});$('reset').addEventListener('click',()=>{total=+$('max').value;localStorage.removeItem(key(total));best();$('msg').textContent='رکورد این سطح پاک شد.'});total=+$('max').value;best();
+})();
+</script></body></html>
