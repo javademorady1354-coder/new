@@ -38,7 +38,7 @@ home = ASSETS / "index.html"
 assert home.is_file(), "index.html is missing"
 parser = AssetParser()
 parser.feed(home.read_text(encoding="utf-8"))
-for page in GAMES + EXTRA:
+for page in list(GAMES) + list(EXTRA):
     assert (ASSETS / page).is_file(), f"Missing asset: {page}"
     assert page in parser.links, f"Page is not linked from home: {page}"
 
