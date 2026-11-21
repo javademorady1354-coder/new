@@ -1,0 +1,72 @@
+name: Signed Android release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require a version tag
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF_TYPE" != "tag" || ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "Run this workflow from a version tag such as v2.3."
+            exit 1
+          fi
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android 16 SDK
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+      - name: Validate app assets
+        run: python3 scripts/validate_assets.py
+      - name: Prepare private signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        shell: bash
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64" || { echo "Missing repository secret ANDROID_KEYSTORE_BASE64"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/android-signing"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/android-signing/release.jks"
+          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/android-signing/release.jks" >> "$GITHUB_ENV"
+      - name: Build signed APK and Android App Bundle
+        env:
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          test -n "$ANDROID_STORE_PASSWORD"
+          test -n "$ANDROID_KEY_ALIAS"
+          test -n "$ANDROID_KEY_PASSWORD"
+          gradle assembleRelease bundleRelease
+      - name: Verify APK signature
+        run: |
+          APK="app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          apksigner verify --verbose "$APK"
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            app/build/outputs/apk/release/app-release.apk \
+            app/build/outputs/bundle/release/app-release.aab \
+            --title "باشگاه بازی‌های ذهنی $GITHUB_REF_NAME" \
+            --notes-file RELEASE_NOTES_FA.md
