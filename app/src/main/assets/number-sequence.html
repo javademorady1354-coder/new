@@ -10,7 +10,23 @@ select,button{font:inherit;border:0;border-radius:11px;padding:11px;background:#
 .cell.done{background:#65d6ad;color:#10251e;opacity:.55}.cell.next{outline:3px solid #ffd166}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.msg{text-align:center;min-height:25px;color:#ffd166;font-size:13px;margin-top:10px}
 .note{font-size:11px;line-height:1.8;color:#a9b8ca;text-align:center}
-</style></head><body><main>
+</style><style>.back-menu{position:fixed;top:7px;right:8px;z-index:9999;text-decoration:none;background:#30445f;color:#fff;border:1px solid #526985;border-radius:10px;padding:8px 11px;font:12px Tahoma;box-shadow:0 3px 12px #0005}header,.head{padding-top:38px!important}</style><style>
+html,body{height:100%;height:100dvh;overflow:hidden}
+body{min-height:0;padding:5px 8px}
+main{height:100%;max-height:100%;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.head{padding-top:36px!important;flex:0 0 auto}
+.head h1{font-size:21px;margin:3px}.head p{font-size:11px;line-height:1.45;margin:4px auto 7px}
+.panel{margin:5px 0;padding:9px;border-radius:14px;min-height:0}
+.stats{flex:0 0 auto;gap:5px}.stat{padding:6px}.stat small{font-size:10px}.stat b{font-size:17px}
+.note{font-size:10px;line-height:1.5}
+button{padding:9px}
+#board .cell{height:clamp(31px,6.3vh,48px);aspect-ratio:auto}
+#arena{height:min(48vh,310px)!important;min-height:155px!important;flex:1}
+#choices button{height:clamp(55px,11vh,85px)!important}
+#board{gap:5px!important}
+.controls{margin-top:7px}
+footer{font-size:9px;margin-top:4px}
+</style></head><body><a class="back-menu" href="index.html">‹ منوی بازی‌ها</a><main>
 <header class="head"><div style="font-size:34px">🔢</div><h1>ترتیب اعداد</h1><p>اعداد را که به‌صورت نامنظم چیده شده‌اند، از ۱ به‌ترتیب انتخاب کن.<br>۲۰ ثانیه فرصت داری!</p></header>
 <section class="panel stats"><div class="stat"><small>زمان</small><b id="time">20</b></div><div class="stat"><small>انتخاب درست</small><b id="score">0</b></div><div class="stat"><small>رکورد</small><b id="best">0</b></div></section>
 <section class="panel">
