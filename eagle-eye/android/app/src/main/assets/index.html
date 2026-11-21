@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101827"><title>چشم عقاب | تمرین دید محیطی</title>
+<style>
+:root{color-scheme:dark;--bg:#101827;--panel:#1c293b;--accent:#65d6ad;--muted:#a9b8ca;--warn:#ffcf70}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#243650,var(--bg) 65%);color:#f5f8fc;font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+main{max-width:620px;margin:auto;padding:18px 14px 28px}.head{text-align:center}.head h1{margin:8px 0;font-size:29px}.head p{color:var(--muted);font-size:14px;line-height:1.8;margin:8px auto 16px}
+.panel{background:#1c293beF;border:1px solid #35465d;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 12px 35px #0003}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.stat{background:#111c2c;border-radius:13px;padding:10px 14px;min-width:90px;text-align:center}.stat small{display:block;color:var(--muted);font-size:11px}.stat b{font-size:21px}
+button,select{font:inherit;border:0;border-radius:13px;padding:12px 15px;background:#30445f;color:white;cursor:pointer}button.primary{background:var(--accent);color:#10251e;font-weight:bold}button:disabled{opacity:.45;cursor:default}
+#arena{height:min(76vw,390px);min-height:280px;max-height:390px;position:relative;border-radius:20px;background:radial-gradient(circle,#263c55,#142235);border:1px solid #4b607b;overflow:hidden;margin:14px 0}
+#fixation{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 5px #ffffff20;z-index:5;pointer-events:none}
+#fixation:after{content:"";position:absolute;left:50%;top:50%;width:4px;height:4px;background:var(--warn);border-radius:50%;transform:translate(-50%,-50%)}
+.num{position:absolute;transform:translate(-50%,-50%);width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:#e9f2ff;color:#10233a;font-weight:bold;font-size:22px;border:2px solid #9bb8d8;box-shadow:0 4px 12px #0005}
+#prompt{text-align:center;font-size:15px;color:var(--muted);line-height:1.8}#target{font-size:29px;color:var(--warn);font-weight:bold;margin:2px 5px}
+.answers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.answers button{padding:12px 4px;font-size:19px;font-weight:bold;background:#314963}
+#message{text-align:center;min-height:25px;color:var(--accent);font-weight:bold;margin:10px 0}
+.help{font-size:12px;color:var(--muted);line-height:1.9}.hidden{display:none!important}
+select{padding:10px;background:#30445f}footer{text-align:center;color:#8192a8;font-size:11px;margin-top:20px}
+@media(max-width:370px){.answers{grid-template-columns:repeat(4,1fr)}.num{width:40px;height:40px}}
+</style></head>
+<body><main>
+<header class="head"><div style="font-size:36px">🦅</div><h1>چشم عقاب</h1><p>تمرین توجه و جست‌وجوی دیداری محیطی<br>نگاهتان را روی نقطه وسط ثابت نگه دارید.</p></header>
+<section class="panel">
+ <div class="row">
+  <div class="stat"><small>زمان</small><b id="time">30</b></div>
+  <div class="stat"><small>امتیاز</small><b id="score">0</b></div>
+  <div class="stat"><small>رکورد</small><b id="best">0</b></div>
+  <div><select id="duration" aria-label="زمان بازی"><option value="20">۲۰ ثانیه</option><option value="30" selected>۳۰ ثانیه</option><option value="60">۶۰ ثانیه</option></select></div>
+ </div>
+ <div id="prompt">عدد هدف را پیدا کنید و سپس همان عدد را از دکمه‌های پایین انتخاب کنید.<br><span id="target">—</span></div>
+ <div id="arena" aria-label="میدان تمرین دید محیطی"><div id="fixation"></div></div>
+ <div class="answers" id="answers"></div>
+ <div id="message">برای شروع، دکمه شروع بازی را بزنید.</div>
+ <div class="row"><button class="primary" id="start">شروع بازی</button><button id="reset">پاک‌کردن رکورد</button></div>
+</section>
+<section class="panel help"><b>روش تمرین</b><br>۱. ابتدا عدد هدف را بخوانید.<br>۲. نگاهتان را به علامت وسط میدان برگردانید و ثابت نگه دارید.<br>۳. بدون دنبال‌کردن اعداد با چشم، عدد هدف را در اطراف پیدا کنید و از دکمه‌های پایین پاسخ دهید.<br>۴. اگر خسته یا دچار ناراحتی چشم شدید، تمرین را متوقف کنید.</section>
+<footer>چشم عقاب • قابل اجرا بدون اینترنت • رکوردها روی همین دستگاه ذخیره می‌شوند</footer>
+</main>
+<script>
+(()=> {
+const $=id=>document.getElementById(id), arena=$('arena'), answers=$('answers');
+let score=0,remaining=30,timer=null,active=false,target=0,round=0;
+const bestKey='eagleEyeBestV1';
+$('best').textContent=localStorage.getItem(bestKey)||'0';
+const positions=[[50,12],[77,20],[90,50],[78,80],[50,88],[22,80],[10,50],[22,20],[50,29],[71,50],[50,71],[29,50]];
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function makeRound(){
+ round++;target=1+Math.floor(Math.random()*9);$('target').textContent=target;
+ arena.querySelectorAll('.num').forEach(n=>n.remove());
+ let vals=shuffle(Array.from({length:12},()=>1+Math.floor(Math.random()*9)));
+ vals[Math.floor(Math.random()*12)]=target;
+ positions.forEach((p,i)=>{let el=document.createElement('div');el.className='num';el.textContent=vals[i];el.style.left=p[0]+'%';el.style.top=p[1]+'%';arena.appendChild(el)});
+ answers.innerHTML='';
+ shuffle([1,2,3,4,5,6,7,8,9]).slice(0,9).sort((a,b)=>a-b).forEach(n=>{
+  let b=document.createElement('button');b.textContent=n;b.disabled=!active;b.addEventListener('click',()=>choose(n));answers.appendChild(b);
+ });
+}
+function choose(n){if(!active)return;if(n===target){score++;$('score').textContent=score;$('message').textContent='آفرین! پاسخ درست بود.';makeRound()}else{$('message').textContent='دوباره دقت کن؛ نگاهت را روی مرکز نگه دار.'}}
+function end(){active=false;clearInterval(timer);timer=null;answers.querySelectorAll('button').forEach(b=>b.disabled=true);let old=Number(localStorage.getItem(bestKey)||0);if(score>old){localStorage.setItem(bestKey,score);$('best').textContent=score}$('message').textContent='پایان تمرین! امتیاز شما: '+score+' — برای تکرار، شروع بازی را بزنید.';$('start').textContent='بازی دوباره'}
+function start(){clearInterval(timer);score=0;remaining=Number($('duration').value);active=true;$('score').textContent='0';$('time').textContent=remaining;$('message').textContent='نگاه روی مرکز؛ عدد هدف را در اطراف پیدا کن.';$('start').textContent='در حال بازی…';$('start').disabled=true;makeRound();timer=setInterval(()=>{remaining--;$('time').textContent=remaining;if(remaining<=0){end();$('start').disabled=false}},1000)}
+$('start').addEventListener('click',start);
+$('reset').addEventListener('click',()=>{if(confirm('رکورد ذخیره‌شده پاک شود؟')){localStorage.removeItem(bestKey);$('best').textContent='0';$('message').textContent='رکورد پاک شد.'}});
+$('duration').addEventListener('change',()=>{if(!active)$('time').textContent=$('duration').value});
+$('time').textContent=$('duration').value;
+})();
+</script></body></html>
