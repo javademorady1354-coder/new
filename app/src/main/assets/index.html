@@ -1,23 +1,27 @@
-<!doctype html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#101827">
-<title>باشگاه بازی‌های ذهنی</title>
+<!doctype html><html lang="fa" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#f7f5ff"><title>باشگاه بازی‌های ذهنی</title>
 <style>
-:root{color-scheme:dark;--bg:#101827;--line:#354b67;--ink:#f5f8fc;--muted:#a9b8ca;--accent:#65d6ad}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Tahoma,Arial,sans-serif}
-body{min-height:100vh;background:radial-gradient(circle at top,#263d5b,var(--bg) 68%);color:var(--ink);padding:16px}
-main{width:min(100%,680px);margin:0 auto}header{text-align:center;padding:18px 8px 20px}.logo{font-size:42px;margin-bottom:8px}
-h1{font-size:25px;margin:0 0 9px}.subtitle{font-size:13px;line-height:1.9;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.card{min-height:112px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-decoration:none;text-align:center;color:var(--ink);background:linear-gradient(145deg,#263b56,#1a293d);border:1px solid var(--line);border-radius:17px;padding:15px 10px;box-shadow:0 8px 22px #0002;transition:transform .12s,border-color .12s}
-.card:active{transform:scale(.98);border-color:var(--accent)}.card .emoji{font-size:29px;line-height:1.2}.card strong{font-size:15px}.card small{font-size:10px;color:var(--muted);line-height:1.6}
-footer{text-align:center;color:#8799b0;font-size:10px;line-height:2;padding:20px 5px 8px}
-@media(max-height:620px){body{padding:8px}header{padding:7px 8px 10px}.logo{font-size:30px}h1{font-size:21px}.card{min-height:88px;padding:10px}.grid{gap:8px}footer{padding:10px 5px 4px}}
-@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card{min-height:130px}}
-</style></head>
-<body><main>
-<header><div class="logo" aria-hidden="true">🎮</div><h1>باشگاه بازی‌های ذهنی</h1><div class="subtitle">شش تمرین آفلاین برای تقویت تمرکز، حافظه، محاسبه و توجه دیداری</div></header>
+:root{color-scheme:light;--ink:#35405f;--muted:#78839d}*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Tahoma,Arial,sans-serif}
+body{min-height:100vh;padding:16px;color:var(--ink);background:radial-gradient(ellipse at 8% 4%,#ffe4ef 0,transparent 32%),radial-gradient(ellipse at 95% 8%,#dff4ff 0,transparent 34%),linear-gradient(145deg,#f8f6ff,#eff9ff 58%,#fff5ec)}
+main{width:min(100%,700px);margin:0 auto}.hero{position:relative;overflow:hidden;text-align:center;padding:23px 18px 21px;margin:4px 0 17px;border-radius:28px;background:linear-gradient(130deg,#fff 0%,#f3efff 50%,#eaf8ff 100%);border:1px solid #fff;box-shadow:0 12px 32px #7b83b51c}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none}.hero:before{width:110px;height:110px;background:#ffd9e966;top:-52px;right:-28px}.hero:after{width:90px;height:90px;background:#c9f3e877;bottom:-48px;left:-20px}
+.logo{width:76px;height:76px;margin:0 auto 11px;display:grid;place-items:center;border-radius:25px;font-size:39px;background:linear-gradient(145deg,#ffe0ed,#e5e1ff 55%,#d9f5ff);box-shadow:0 9px 20px #a49edb33;transform:rotate(-4deg)}
+h1{font-size:clamp(22px,5vw,29px);margin:0 0 9px;color:#394365}.subtitle{font-size:13px;line-height:2;color:var(--muted);max-width:440px;margin:auto}
+.tag{display:inline-block;margin-top:12px;padding:6px 13px;border-radius:30px;background:#e6f8f1;color:#397d68;font-size:11px;border:1px solid #d4f0e5}
+.section-title{display:flex;align-items:center;gap:9px;margin:19px 4px 12px;font-size:15px;font-weight:bold;color:#596487}.section-title:before{content:"";width:8px;height:8px;border-radius:50%;background:#9b8de0;box-shadow:0 0 0 5px #9b8de01b}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{position:relative;overflow:hidden;min-height:136px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-decoration:none;text-align:center;color:#394565;background:linear-gradient(145deg,#fff,#fbfaff);border:1px solid #fff;border-radius:22px;padding:15px 10px;box-shadow:0 8px 22px #7480a51c;transition:transform .15s,box-shadow .15s}
+.card:after{content:"";position:absolute;width:78px;height:78px;border-radius:50%;top:-42px;left:-28px;background:var(--bubble,#fce5ef);opacity:.7}
+.card:nth-child(2){--bubble:#e2f5ff}.card:nth-child(3){--bubble:#e6f7e9}.card:nth-child(4){--bubble:#fff0d9}.card:nth-child(5){--bubble:#eee7ff}.card:nth-child(6){--bubble:#ffe8e2}
+.card:active{transform:translateY(2px) scale(.985);box-shadow:0 4px 12px #7480a51c}
+.emoji{width:53px;height:53px;display:grid;place-items:center;border-radius:18px;background:var(--bubble,#fce5ef);font-size:29px}
+.card strong{font-size:15px}.card small{font-size:10px;color:#8790a8;line-height:1.7}
+footer{text-align:center;color:#929bb0;font-size:10px;line-height:2;padding:19px 5px 7px}
+@media(max-height:650px){body{padding:9px}.hero{padding:12px;margin-bottom:10px}.logo{width:56px;height:56px;font-size:29px;margin-bottom:6px}.subtitle{font-size:11px}.tag{margin-top:6px}.section-title{margin:10px 4px 8px}.card{min-height:104px;padding:9px}.emoji{width:42px;height:42px;font-size:24px}.grid{gap:8px}footer{padding:10px 4px}}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card{min-height:150px}}
+</style></head><body><main>
+<header class="hero"><div class="logo" aria-hidden="true">🎮</div><h1>باشگاه بازی‌های ذهنی</h1><div class="subtitle">با بازی‌های کوتاه و سرگرم‌کننده، تمرکز و دقت خودت را به چالش بکش!</div><span class="tag">✨ شش بازی هیجان‌انگیز • کاملاً آفلاین</span></header>
+<div class="section-title">یکی از بازی‌ها را انتخاب کن</div>
 <nav class="grid" aria-label="انتخاب بازی">
 <a class="card" href="challenge-mind.html"><span class="emoji">🧠</span><strong>چالش ذهن</strong><small>چهار عمل اصلی با پاسخ‌های چندگزینه‌ای</small></a>
 <a class="card" href="number-sequence.html"><span class="emoji">🔢</span><strong>ترتیب اعداد</strong><small>پیدا کردن اعداد نامنظم از ۱ تا ۴۰</small></a>
@@ -25,6 +29,4 @@ footer{text-align:center;color:#8799b0;font-size:10px;line-height:2;padding:20px
 <a class="card" href="color-recognition.html"><span class="emoji">🎨</span><strong>تشخیص رنگ‌ها</strong><small>تشخیص سریع رنگ هدف</small></a>
 <a class="card" href="multi-point-tracking.html"><span class="emoji">🟣</span><strong>تعقیب چند نقطه</strong><small>دنبال کردن نقطه هدف در حرکت</small></a>
 <a class="card" href="odd-shape.html"><span class="emoji">🔷</span><strong>شکل متفاوت</strong><small>پیدا کردن شکل ناهماهنگ</small></a>
-</nav>
-<footer>نسخه ۲٫۰ • کاملاً آفلاین • هر بازی در صفحه مستقل اجرا می‌شود<br>رکوردها در حافظه همین دستگاه ذخیره می‌شوند.</footer>
-</main></body></html>
+</nav><footer>نسخه ۲٫۱ • طراحی روشن و فانتزی • رکوردها در همین دستگاه ذخیره می‌شوند</footer></main></body></html>
