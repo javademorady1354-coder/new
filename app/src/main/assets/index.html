@@ -10,11 +10,12 @@ body{min-height:100vh;background:radial-gradient(circle at top,#263d5b,var(--bg)
 main{width:min(100%,680px);margin:0 auto}header{text-align:center;padding:18px 8px 20px}.logo{font-size:42px;margin-bottom:8px}
 h1{font-size:25px;margin:0 0 9px}.subtitle{font-size:13px;line-height:1.9;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.card{min-height:112px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-decoration:none;text-align:center;color:var(--ink);background:linear-gradient(145deg,#263b56,#1a293d);border:1px solid var(--line);border-radius:17px;padding:15px 10px;box-shadow:0 8px 22px #0002;transition:transform .12s,border-color .12s}
+.card{min-height:108px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-decoration:none;text-align:center;color:var(--ink);background:linear-gradient(145deg,#263b56,#1a293d);border:1px solid var(--line);border-radius:17px;padding:14px 10px;box-shadow:0 8px 22px #0002;transition:transform .12s,border-color .12s}
 .card:active{transform:scale(.98);border-color:var(--accent)}.card .emoji{font-size:29px;line-height:1.2}.card strong{font-size:15px}.card small{font-size:10px;color:var(--muted);line-height:1.6}
-footer{text-align:center;color:#8799b0;font-size:10px;line-height:2;padding:20px 5px 8px}
-@media(max-height:620px){body{padding:8px}header{padding:7px 8px 10px}.logo{font-size:30px}h1{font-size:21px}.card{min-height:88px;padding:10px}.grid{gap:8px}footer{padding:10px 5px 4px}}
-@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card{min-height:130px}}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}.tool{min-height:82px;background:#17263a;border:1px solid #405875;border-radius:15px;color:var(--ink);text-decoration:none;text-align:center;padding:13px 8px;display:flex;flex-direction:column;justify-content:center;gap:6px}.tool strong{font-size:14px}.tool small{font-size:10px;color:var(--muted);line-height:1.5}
+footer{text-align:center;color:#8799b0;font-size:10px;line-height:2;padding:18px 5px 8px}
+@media(max-height:620px){body{padding:8px}header{padding:7px 8px 10px}.logo{font-size:30px}h1{font-size:21px}.card{min-height:84px;padding:9px}.grid{gap:8px}footer{padding:10px 5px 4px}}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card{min-height:122px}}
 </style></head>
 <body><main>
 <header><div class="logo" aria-hidden="true">🎮</div><h1>باشگاه بازی‌های ذهنی</h1><div class="subtitle">شش تمرین آفلاین برای تقویت تمرکز، حافظه، محاسبه و توجه دیداری</div></header>
@@ -26,5 +27,9 @@ footer{text-align:center;color:#8799b0;font-size:10px;line-height:2;padding:20px
 <a class="card" href="multi-point-tracking.html"><span class="emoji">🟣</span><strong>تعقیب چند نقطه</strong><small>دنبال کردن نقطه هدف در حرکت</small></a>
 <a class="card" href="odd-shape.html"><span class="emoji">🔷</span><strong>شکل متفاوت</strong><small>پیدا کردن شکل ناهماهنگ</small></a>
 </nav>
-<footer>نسخه ۲٫۱ • کاملاً آفلاین • هر بازی در صفحه مستقل اجرا می‌شود<br>رکوردها در حافظه همین دستگاه ذخیره می‌شوند.</footer>
+<section class="tools">
+<a class="tool" href="subscription.html"><strong>⭐ اشتراک و امکانات ویژه</strong><small>ماهانه، سه‌ماهه، شش‌ماهه و سالانه</small></a>
+<a class="tool" href="updates.html"><strong>⬆️ بررسی به‌روزرسانی</strong><small>بررسی انتشار نسخه تازه برنامه</small></a>
+</section>
+<footer>نسخه ۲٫۲ • بازی‌ها کاملاً آفلاین هستند<br>رکوردها در حافظه همین دستگاه ذخیره می‌شوند.</footer>
 </main></body></html>
