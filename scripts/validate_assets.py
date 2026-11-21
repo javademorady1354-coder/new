@@ -10,6 +10,7 @@ GAMES = [
     "challenge-mind.html", "number-sequence.html", "eagle-eye.html",
     "color-recognition.html", "multi-point-tracking.html", "odd-shape.html"
 ]
+EXTRA = ("subscription.html", "updates.html", "privacy-policy.html")
 
 class AssetParser(HTMLParser):
     def __init__(self):
@@ -20,7 +21,7 @@ class AssetParser(HTMLParser):
         self.current_script = []
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        if tag == "a" and attrs.get("href"):
+        if tag in ("a", "script", "link") and attrs.get("href"):
             self.links.append(attrs["href"])
         if tag == "script":
             self.in_script = True
@@ -37,12 +38,16 @@ home = ASSETS / "index.html"
 assert home.is_file(), "index.html is missing"
 parser = AssetParser()
 parser.feed(home.read_text(encoding="utf-8"))
-for game in GAMES:
-    assert (ASSETS / game).is_file(), f"Missing game asset: {game}"
-    assert game in parser.links, f"Game is not linked from home: {game}"
-for extra in ("subscription.html", "updates.html"):
-    assert (ASSETS / extra).is_file(), f"Missing page: {extra}"
-    assert extra in parser.links, f"Page is not linked from home: {extra}"
+for page in GAMES + EXTRA:
+    assert (ASSETS / page).is_file(), f"Missing asset: {page}"
+    assert page in parser.links, f"Page is not linked from home: {page}"
+
+for html_file in sorted(ASSETS.glob("*.html")):
+    page = AssetParser()
+    page.feed(html_file.read_text(encoding="utf-8"))
+    for link in page.links:
+        if link.endswith(".html") and "://" not in link and not link.startswith("#"):
+            assert (ASSETS / link).is_file(), f"Broken local link in {html_file.name}: {link}"
 
 checked = 0
 for html_file in sorted(ASSETS.glob("*.html")):
@@ -57,4 +62,5 @@ for html_file in sorted(ASSETS.glob("*.html")):
             subprocess.run(["node", "--check", tmp.name], check=True)
         checked += 1
 
-print(f"OK: {len(GAMES)} game pages and 2 utility pages found; {checked} JavaScript blocks passed syntax checks.")
+assert (ROOT / "app/src/main/res/drawable/ic_launcher.xml").is_file(), "Launcher icon is missing"
+print(f"OK: {len(GAMES)} games, {len(EXTRA)} support pages, local links, launcher icon and {checked} JavaScript blocks validated.")
