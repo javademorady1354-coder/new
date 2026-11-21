@@ -1,1 +1,30 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#101827"><title>باشگاه بازی‌های ذهنی</title><style>*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#243650,#101827 70%);color:#f5f8fc;font-family:Tahoma,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}header{text-align:center;padding:24px 10px 16px}h1{font-size:25px;margin:3px 0 9px}.sub{font-size:13px;color:#a9b8ca}nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;max-width:620px;width:100%;margin:0 auto}nav a{display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #425873;border-radius:16px;background:#24364e;color:#eaf2fc;padding:16px 8px;font:bold 15px Tahoma;min-height:78px}nav a:active{background:#65d6ad;color:#10251e}footer{text-align:center;color:#8192a8;font-size:11px;padding:12px;line-height:1.8}@media(max-height:650px){header{padding:12px 8px 6px}nav{gap:7px;padding:8px}nav a{min-height:62px;padding:10px}} </style></head><body><header><h1>🎮 باشگاه بازی‌های ذهنی</h1><div class="sub">شش بازی آفلاین برای تمرکز، حافظه و توجه دیداری</div></header><nav><a href="challenge-mind.html">🧠 چالش ذهن</a><a href="number-sequence.html">🔢 ترتیب اعداد</a><a href="eagle-eye.html">🦅 چشم عقاب</a><a href="color-recognition.html">🎨 تشخیص رنگ</a><a href="multi-point-tracking.html">🟣 تعقیب نقاط</a><a href="odd-shape.html">🔷 شکل متفاوت</a></nav><footer>هر هر بازی در صفحه مستقل اجرا می‌شود؛ رکوردها روی همین دستگاه ذخیره می‌شوند.</footer><script>const frame=document.getElementById('game'),buttons=[...document.querySelectorAll('nav button')];buttons.forEach(b=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');frame.src=b.dataset.file;}));</script></body></html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#101827">
+<title>باشگاه بازی‌های ذهنی</title>
+<style>
+:root{color-scheme:dark;--bg:#101827;--line:#354b67;--ink:#f5f8fc;--muted:#a9b8ca;--accent:#65d6ad}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Tahoma,Arial,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at top,#263d5b,var(--bg) 68%);color:var(--ink);padding:16px}
+main{width:min(100%,680px);margin:0 auto}header{text-align:center;padding:18px 8px 20px}.logo{font-size:42px;margin-bottom:8px}
+h1{font-size:25px;margin:0 0 9px}.subtitle{font-size:13px;line-height:1.9;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.card{min-height:112px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;text-decoration:none;text-align:center;color:var(--ink);background:linear-gradient(145deg,#263b56,#1a293d);border:1px solid var(--line);border-radius:17px;padding:15px 10px;box-shadow:0 8px 22px #0002;transition:transform .12s,border-color .12s}
+.card:active{transform:scale(.98);border-color:var(--accent)}.card .emoji{font-size:29px;line-height:1.2}.card strong{font-size:15px}.card small{font-size:10px;color:var(--muted);line-height:1.6}
+footer{text-align:center;color:#8799b0;font-size:10px;line-height:2;padding:20px 5px 8px}
+@media(max-height:620px){body{padding:8px}header{padding:7px 8px 10px}.logo{font-size:30px}h1{font-size:21px}.card{min-height:88px;padding:10px}.grid{gap:8px}footer{padding:10px 5px 4px}}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card{min-height:130px}}
+</style></head>
+<body><main>
+<header><div class="logo" aria-hidden="true">🎮</div><h1>باشگاه بازی‌های ذهنی</h1><div class="subtitle">شش تمرین آفلاین برای تقویت تمرکز، حافظه، محاسبه و توجه دیداری</div></header>
+<nav class="grid" aria-label="انتخاب بازی">
+<a class="card" href="challenge-mind.html"><span class="emoji">🧠</span><strong>چالش ذهن</strong><small>چهار عمل اصلی با پاسخ‌های چندگزینه‌ای</small></a>
+<a class="card" href="number-sequence.html"><span class="emoji">🔢</span><strong>ترتیب اعداد</strong><small>پیدا کردن اعداد نامنظم از ۱ تا ۴۰</small></a>
+<a class="card" href="eagle-eye.html"><span class="emoji">🦅</span><strong>چشم عقاب</strong><small>تمرین توجه و جست‌وجوی دیداری</small></a>
+<a class="card" href="color-recognition.html"><span class="emoji">🎨</span><strong>تشخیص رنگ‌ها</strong><small>تشخیص سریع رنگ هدف</small></a>
+<a class="card" href="multi-point-tracking.html"><span class="emoji">🟣</span><strong>تعقیب چند نقطه</strong><small>دنبال کردن نقطه هدف در حرکت</small></a>
+<a class="card" href="odd-shape.html"><span class="emoji">🔷</span><strong>شکل متفاوت</strong><small>پیدا کردن شکل ناهماهنگ</small></a>
+</nav>
+<footer>نسخه ۲٫۰ • کاملاً آفلاین • هر بازی در صفحه مستقل اجرا می‌شود<br>رکوردها در حافظه همین دستگاه ذخیره می‌شوند.</footer>
+</main></body></html>
