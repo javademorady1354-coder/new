@@ -58,7 +58,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 <button onclick="changeFont(-1)" aria-label="کوچک کردن نوشته">A−</button>
 <button onclick="changeFont(1)" aria-label="بزرگ کردن نوشته">A+</button>
 <button onclick="toggleTheme()">شب/روز</button>
-<button onclick="toggleBookmark()">☆ نشانک</button>
+<button onclick="toggleBookmark()">☆ نشانک</button><button onclick="resumeBookmark()">ادامه مطالعه</button>
 <input id="search" placeholder="جست‌وجو در متن..." oninput="searchText(this.value)">
 <button class="primary" onclick="clearSearch()">پاک‌کردن</button>
 </div>
@@ -184,6 +184,7 @@ let size=20, dark=false, marked='';
 function changeFont(d){size=Math.max(16,Math.min(30,size+d*2));document.documentElement.style.setProperty('--font',size+'px');}
 function toggleTheme(){dark=!dark;document.documentElement.style.setProperty('--bg',dark?'#17232d':'#f7f5ef');document.documentElement.style.setProperty('--paper',dark?'#22323e':'#fffefa');document.documentElement.style.setProperty('--ink',dark?'#edf2f2':'#243443');document.documentElement.style.setProperty('--muted',dark?'#b4c2c9':'#657585');document.documentElement.style.setProperty('--line',dark?'#3c4c57':'#e6e1d6');}
 function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function resumeBookmark(){let id=localStorage.getItem('musicReaderBookmark');if(id&&document.getElementById(id))go(id);else alert('هنوز نشانکی ذخیره نشده است.');}
 function toggleBookmark(){let id=marked||'c1';let current=document.elementFromPoint(innerWidth/2,150);let visible=[...document.querySelectorAll('.chapter')].filter(e=>e.getBoundingClientRect().top<innerHeight/2&&e.getBoundingClientRect().bottom>0);if(visible.length)id=visible[0].id;localStorage.setItem('musicReaderBookmark',id);marked=id;alert('نشانک ذخیره شد.');}
 function searchText(q){q=q.trim().toLowerCase();document.querySelectorAll('.chapter,.toc').forEach(el=>{if(!q){el.classList.remove('hidden');return;}el.classList.toggle('hidden',!el.innerText.toLowerCase().includes(q));});}
 function clearSearch(){document.getElementById('search').value='';searchText('');}
