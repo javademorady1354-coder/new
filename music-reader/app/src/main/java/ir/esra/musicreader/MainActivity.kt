@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.webkit.WebResourceRequest
+import android.content.Intent
 import android.view.ViewGroup
 import android.graphics.Color
 
@@ -26,7 +28,16 @@ class MainActivity : Activity() {
         reader.settings.domStorageEnabled = true
         reader.settings.allowFileAccess = true
         reader.settings.allowContentAccess = false
-        reader.webViewClient = WebViewClient()
+        reader.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                val uri = request.url
+                if (uri.scheme == "https" || uri.scheme == "http") {
+                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                    return true
+                }
+                return false
+            }
+        }
         reader.webChromeClient = WebChromeClient()
         setContentView(reader)
         if (savedInstanceState == null) {
