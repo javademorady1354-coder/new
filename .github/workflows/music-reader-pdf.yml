@@ -1,0 +1,31 @@
+name: Build large-print Persian music booklet PDF
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "music-reader/print/**"
+      - ".github/workflows/music-reader-pdf.yml"
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice fonts-noto-core fonts-noto-extra
+      - name: Render PDF
+        run: |
+          mkdir -p output
+          libreoffice -env:UserInstallation=file:///tmp/lo-profile --headless --convert-to pdf --outdir output music-reader/print/reader.html
+          test -s output/reader.pdf
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Persian-Music-Booklet-Large-Print-PDF
+          path: output/reader.pdf
+          if-no-files-found: error
