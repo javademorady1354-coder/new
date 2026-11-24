@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#122739">
+<title>شناخت دنیای موسیقی نوجوانان</title>
+<style>
+:root{--bg:#f7f5ef;--paper:#fffefa;--ink:#243443;--muted:#657585;--accent:#167c80;--accent2:#e6a84a;--line:#e6e1d6;--soft:#eaf3f1;--font:20px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Naskh Arabic","Noto Sans Arabic",Tahoma,Arial,sans-serif;font-size:var(--font);line-height:2.05}
+header{background:linear-gradient(135deg,#122739,#1d5861);color:white;padding:24px 18px 18px;border-radius:0 0 25px 25px;box-shadow:0 5px 20px #102b3a24}
+.topline{font-size:13px;opacity:.8;letter-spacing:.3px}.brand{font-size:13px;color:#cde5df;margin-top:8px}
+h1{font-size:27px;line-height:1.7;margin:14px 0 4px}header p{font-size:15px;color:#e0ecea;margin:0}
+.toolbar{position:sticky;top:0;z-index:5;background:#f7f5eff2;backdrop-filter:blur(8px);padding:10px 12px;border-bottom:1px solid var(--line);display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+button,.tool{border:1px solid var(--line);background:white;color:var(--ink);border-radius:12px;padding:7px 11px;font:inherit;font-size:14px;cursor:pointer}
+button.primary{background:var(--accent);color:white;border-color:var(--accent)}
+button:active{transform:scale(.98)}
+#search{flex:1;min-width:130px;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font:inherit;font-size:14px;background:white}
+main{max-width:850px;margin:auto;padding:16px 13px 60px}
+.cover{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px 18px;margin:8px 0 16px;text-align:center}
+.cover .seal{display:inline-block;background:var(--soft);color:var(--accent);padding:4px 14px;border-radius:30px;font-size:13px}
+.cover h2{font-size:25px;line-height:1.8;margin:14px 0 4px;color:#174f58}
+.cover p{margin:4px 0;color:var(--muted);font-size:16px}
+.toc{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
+.toc h3{margin:0 0 8px;color:var(--accent);font-size:19px}
+.toc button{display:block;width:100%;text-align:right;margin:6px 0;background:#f8faf8;border-color:#e5eeea;font-size:15px}
+.chapter{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:19px 17px;margin:15px 0;box-shadow:0 4px 15px #24344308;scroll-margin-top:115px}
+.kicker{font-size:13px;color:var(--accent);font-weight:bold}
+h2{font-size:23px;line-height:1.75;color:#174f58;margin:5px 0 12px}
+h3{font-size:19px;line-height:1.8;color:#8a5b18;margin:16px 0 5px}
+p{margin:8px 0}
+.note{background:#f3f7f4;border-right:4px solid var(--accent);padding:12px 14px;border-radius:12px;margin:15px 0;font-size:.92em}
+.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}
+.item strong{color:#145d62}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+.card{background:#f8f8f3;border:1px solid var(--line);border-radius:14px;padding:12px}
+.card b{color:#145d62}
+.term{background:#fbf8ef;border:1px solid #eee5d0;border-radius:13px;padding:12px;margin:9px 0}
+.term strong{color:#145d62}
+.q{background:#edf4f2;border-radius:14px;padding:13px 15px;margin:12px 0}
+.q b{display:block;color:#155c61}
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.9;margin:10px 0}
+td,th{border:1px solid var(--line);padding:9px;vertical-align:top;text-align:right}
+th{background:#eaf3f1;color:#155c61}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+.hidden{display:none!important}.small{font-size:14px;color:var(--muted)}
+@media(min-width:650px){.grid.two{grid-template-columns:1fr 1fr}.chapter{padding:24px 28px}}
+</style>
+</head>
+<body>
+<header>
+<div class="topline">کتابچه دیجیتال | مؤسسه تربیتی رسانه‌ای اسرا</div>
+<h1>شناخت دنیای موسیقی نوجوانان</h1>
+<p>راهنمای آشنایی والدین، مربیان و دغدغه‌مندان تربیتی</p>
+<div class="brand">مولف: علیرضا خوش‌منظر</div>
+</header>
+<div class="toolbar">
+<button onclick="changeFont(-1)" aria-label="کوچک کردن نوشته">A−</button>
+<button onclick="changeFont(1)" aria-label="بزرگ کردن نوشته">A+</button>
+<button onclick="toggleTheme()">شب/روز</button>
+<button onclick="toggleBookmark()">☆ نشانک</button>
+<input id="search" placeholder="جست‌وجو در متن..." oninput="searchText(this.value)">
+<button class="primary" onclick="clearSearch()">پاک‌کردن</button>
+</div>
+<main>
+<section class="cover">
+<span class="seal">کتابچه راهنمای تربیتی</span>
+<h2>شناخت دنیای موسیقی نوجوانان</h2>
+<p>مولف: علیرضا خوش‌منظر</p>
+<p class="small">نسخه مطالعه آفلاین اندروید</p>
+</section>
+<nav class="toc" id="toc">
+<h3>فهرست مطالب</h3>
+<button onclick="go('intro')">مقدمه</button>
+<button onclick="go('c1')">بخش ۱ ـ چرا موسیقی در ذهن نوجوان نفوذ دارد؟</button>
+<button onclick="go('c2')">بخش ۲ ـ سبک‌های پرطرفدار نوجوانان</button>
+<button onclick="go('c3')">بخش ۳ ـ پشت‌پرده الگوریتم‌ها</button>
+<button onclick="go('c4')">بخش ۴ ـ فرهنگ لغت دنیای طرفداری</button>
+<button onclick="go('c5')">بخش ۵ ـ ریشه‌ها و پیامدهای تداوم</button>
+<button onclick="go('c6')">بخش ۶ ـ چهار اشتباه رایج والدین</button>
+<button onclick="go('c7')">بخش ۷ ـ سه سؤال برای گفت‌وگو</button>
+<button onclick="go('c8')">بخش ۸ ـ سه پیشنهاد عملی</button>
+</nav>
+<section class="chapter" id="intro">
+<div class="kicker">مقدمه</div><h2>سالم و عرض ادب</h2>
+<p>من علیرضا خوش‌منظر هستم و توی این کتابچه می‌خواهم شما را کمی به دنیای موسیقی نوجوان‌های امروز ببرم؛ دنیایی که خیلی از بزرگ‌ترها فقط صدایش را از پشت در اتاق یا هندزفری می‌شنوند، اما نمی‌دانند دقیقاً در ذهن نوجوان چه خبر است.</p>
+<p>خدا را شکر می‌کنم که شما نسبت به جهان ذهنی نوجوان‌ها بی‌تفاوت نیستید و برای شناخت آن وقت گذاشته‌اید. این کتابچه نقشه راهی سریع و کاربردی برای والدین، مربیان و دغدغه‌مندان تربیتی است تا پیش از هر برخوردی با فضای موسیقی نوجوانان آشنا شوند: از دلیل کشش نوجوان به موسیقی و سبک‌های پرطرفدار تا الگوریتم‌ها، فرهنگ واژگان طرفداری، ریشه‌ها و پیامدهای تداوم برخی عادت‌ها و سه سؤال برای شروع گفت‌وگو بدون تنش.</p>
+<p>از اینکه همراه ما هستید بی‌نهایت ممنونم.</p>
+</section>
+<section class="chapter" id="c1">
+<div class="kicker">بخش ۱</div><h2>چرا موسیقی این‌قدر در ذهن نوجوان نفوذ دارد؟</h2>
+<p>برای بسیاری از بزرگ‌ترها، موسیقی نهایتاً سرگرمی یا صدای پس‌زمینه است؛ اما در دوره نوجوانی ماجرا به این سادگی نیست. متن کتابچه توضیح می‌دهد که موسیقی می‌تواند با سه نیاز مهم نوجوان ارتباط پیدا کند:</p>
+<div class="item"><h3>۱. اعلام استقلال و ساختن هویت</h3><p>نوجوان می‌خواهد بگوید «من دیگر بچه نیستم و برای خودم سلیقه و مرز دارم». سبک موسیقی یکی از راه‌هایی است که از طریق آن هویت خود را تعریف می‌کند و به دیگران نشان می‌دهد کیست و به چه دنیایی تعلق دارد.</p></div>
+<div class="item"><h3>۲. تخلیه هیجان و پناهگاه وقتی کسی درکش نمی‌کند</h3><p>نوجوان‌ها موج‌هایی از خشم، استرس، دلخوری یا هیجان را تجربه می‌کنند که معمولاً بلد نیستند یا رویشان نمی‌شود در جمع خانواده بیان کنند. وقتی مهارت کافی برای بیان و مدیریت هیجان نداشته باشند، موسیقی ممکن است به مسکّن فوری و مترجم احساساتشان تبدیل شود.</p></div>
+<div class="item"><h3>۳. زبان مشترک جمع دوستان و ترس از طرد شدن</h3><p>بخش بزرگی از شوخی‌ها، چت‌ها و رفاقت‌های مدرسه و فضای مجازی حول آهنگ‌های ترند و خواننده‌های معروف می‌چرخد. موسیقی گاهی به نوجوان کمک می‌کند احساس کند عضوی از جمع دوستان است.</p></div>
+<div class="note"><b>نکته مهم:</b> اگر ندانیم موسیقی جای کدام نیاز نوجوان را پر کرده است، نصیحت و تذکر مستقیم ممکن است مؤثر نباشد و باعث بسته‌تر شدن فضای گفت‌وگو شود.</div>
+</section>
+<section class="chapter" id="c2">
+<div class="kicker">بخش ۲</div><h2>سبک‌های پرطرفدار بین نوجوان‌ها</h2>
+<p>کتابچه هشت جریان موسیقی را به‌صورت خلاصه معرفی می‌کند:</p>
+<div class="grid two">
+<div class="card"><b>کی‌پاپ | K-Pop</b><p>پاپ کره‌ای با ریتم بالا، تدوین چشم‌گیر، رقص‌های هماهنگ و گروه‌های پرانرژی مانند BTS. ممکن است حس تعلق گروهی، رفاقت و الگوبرداری از ستاره‌ها را ایجاد کند.</p></div>
+<div class="card"><b>رپ و دریل | Rap & Drill</b><p>کلام سریع، ضرب‌آهنگ کوبنده و مضامین اعتراضی، خیابانی یا خودنمایی. برخی نوجوانان آن را راهی برای تخلیه هیجان یا بیان خشم می‌دانند.</p></div>
+<div class="card"><b>دِپ و دارک | Dep / Dark</b><p>فضای غمگین، ناامیدانه یا تلخ؛ مانند بعضی آثار پاپ داخلی یا آثار Billie Eilish. ممکن است برای همذات‌پنداری با تنهایی، دل‌شکستگی یا فشارهای روزمره انتخاب شود.</p></div>
+<div class="card"><b>فونک | Phonk</b><p>ریتم‌های بسیار تند و بیس سنگین؛ پرکاربرد در کلیپ‌های کوتاه، ماشینی و ورزشی. برای ایجاد هیجان هنگام بازی یا ورزش استفاده می‌شود.</p></div>
+<div class="card"><b>لوفای | Lo-fi</b><p>موسیقی بی‌کلام آرام و تکرارشونده همراه با صداهای محیطی مثل باران یا ورق‌زدن کتاب؛ برای ایجاد حس تمرکز یا کم‌کردن سکوت اتاق.</p></div>
+<div class="card"><b>ایندی | Indie</b><p>موسیقی مستقل با حال‌وهوای متفاوت و صمیمی، دور از جریان اصلی بازار؛ برای کشف سلیقه شخصی و متفاوت‌بودن.</p></div>
+<div class="card"><b>اسپیدآپ و ریمیکس | Sped-Up / Viral</b><p>نسخه‌های تندشده یا بازترکیب‌شده آهنگ‌های قدیمی و جدید با ریتم هیجانی کوتاه؛ همراه با ترند ویدیوهای کوتاه.</p></div>
+<div class="card"><b>راک و راک‌اند‌رول | Alt-Pop / Rock</b><p>ترکیب گیتار و درامز پرانرژی و ترانه‌های صریح درباره هویت، آزادی و تفاوت نسل؛ برای تخلیه انرژی و بیان خود.</p></div>
+</div>
+</section>
+<section class="chapter" id="c3">
+<div class="kicker">بخش ۳</div><h2>پشت‌پرده الگوریتم‌ها؛ نوجوان‌ها چطور وسط این موج می‌افتند؟</h2>
+<p>کتابچه می‌گوید شیوه شنیدن موسیقی تغییر کرده و گاهی نوجوان به‌جای جست‌وجوی مستقیم آهنگ، از مسیرهای پیشنهادی پلتفرم‌ها با آن روبه‌رو می‌شود. سه مسیر اصلی مطرح‌شده عبارت‌اند از:</p>
+<div class="item"><h3>۱. ریلز و کلیپ‌های کوتاه ۳۰ ثانیه‌ای یا یک‌دقیقه‌ای</h3><p>بسیاری از نوجوان‌ها یک آهنگ را از ویدیوهای کوتاه پربازدید، بازی‌های آنلاین یا کلیپ‌های فن‌پیج‌ها می‌شنوند. گاهی تمام شناختشان از آهنگ به همان بخش کوتاه و ریتمیک محدود می‌شود.</p></div>
+<div class="item"><h3>۲. پیشنهادهای پی‌درپی الگوریتم‌ها</h3><p>در متن کتابچه آمده است که اگر نوجوان در روزی خسته یا ناراحت چند آهنگ غمگین گوش بدهد، ممکن است سامانه پیشنهاددهنده قطعه‌های مشابه بیشتری نمایش دهد و تجربه شنیدن او را به سمت محتوای مشابه ببرد.</p></div>
+<div class="item"><h3>۳. ارسال دوستان و ترس از عقب‌ماندن</h3><p>گاهی نوجوان به‌خاطر صحبت دوستان یا اعضای خانواده درباره یک موسیقی خاص سراغ آن می‌رود تا از گفت‌وگوهای جمع عقب نماند. کتابچه گفت‌وگوی محترمانه را به‌جای طعنه و حمله پیشنهاد می‌کند.</p></div>
+<div class="note"><b>نکته مهم:</b> آشنایی با سازوکار پیشنهاد محتوا کمک می‌کند به‌جای دعوا با نوجوان، درباره انتخاب‌ها و تجربه استفاده از پلتفرم‌ها گفت‌وگو کنیم.</div>
+</section>
+<section class="chapter" id="c4">
+<div class="kicker">بخش ۴</div><h2>فرهنگ لغت دنیای طرفداری</h2>
+<p>شناخت این واژه‌ها کمک می‌کند هنگام گفت‌وگو با نوجوان، منظور او را بهتر بفهمیم:</p>
+<div class="term"><strong>Idol | آیدول:</strong> ستاره‌های موسیقی، به‌ویژه در کی‌پاپ. این چهره‌ها ممکن است برای طرفداران به الگوهایی اثرگذار تبدیل شوند.</div>
+<div class="term"><strong>ARMY & Fandom | آرمی و فندوم:</strong> نام جامعه هواداران یک گروه یا خواننده. برای نمونه آرمی نام طرفداران BTS است. نوجوان ممکن است در این جمع‌ها حس خانواده و همبستگی پیدا کند.</div>
+<div class="term"><strong>Fan Art | فن‌آرت:</strong> طراحی، نقاشی، تصویرسازی دیجیتال یا پوسترهایی که طرفداران با الهام از خواننده محبوبشان می‌سازند و منتشر می‌کنند.</div>
+<div class="term"><strong>Fan Fiction | فن‌فیکشن:</strong> داستان‌ها و رمان‌های تخیلی که طرفداران با شخصیت خواننده‌ها می‌نویسند.</div>
+<div class="term"><strong>Fact | فکت:</strong> خبرها، مصاحبه‌ها، جمله‌ها و جزئیات زندگی شخصی خواننده که در فن‌پیج‌ها منتشر می‌شود.</div>
+<div class="term"><strong>Mood Playlist | پلی‌لیست مودمحور:</strong> فهرست پخش بر اساس حال‌وهوای فرد، مانند «برای وقت‌هایی که حوصله هیچ‌کس را ندارم» یا «پلی‌لیست شب امتحان».</div>
+<div class="term"><strong>Bias | بایاس:</strong> در گروه‌های چندنفره، عضوی که نوجوان نسبت به دیگر اعضا علاقه ویژه‌تری به او دارد.</div>
+<div class="term"><strong>Streaming | استریم کردن:</strong> پخش هدفمند و تکراری یک آهنگ در پلتفرم‌ها برای ثبت رکورد بازدید یا بالا بردن رتبه خواننده.</div>
+<div class="term"><strong>Diss / Diss-back | دیس و دیس‌بک:</strong> آهنگ‌های رپی با کلام تند و کنایه‌آمیز که خواننده‌ها در آن یکدیگر را به چالش می‌کشند.</div>
+<div class="term"><strong>Edit | اِدیت:</strong> ویدیوهای کوتاه و پرجلوه که با ترکیب عکس خواننده، زیرنویس ترانه و بخشی از موسیقی ساخته می‌شوند.</div>
+</section>
+<section class="chapter" id="c5">
+<div class="kicker">بخش ۵</div><h2>پشت این سبک‌ها چه خبر است؟ از ریشه تا پیامدهای تداوم</h2>
+<p>این بخش، دیدگاه نویسنده درباره نیازها و نگرانی‌هایی را بیان می‌کند که ممکن است پشت برخی عادت‌های شنیداری باشد. این موارد را باید به‌عنوان تحلیل و هشدارهای مطرح‌شده در کتابچه خواند، نه تشخیص قطعی درباره یک نوجوان یا نتیجه علمیِ حتمی برای همه افراد.</p>
+<table><thead><tr><th>سبک یا رفتار</th><th>ریشه و دلیل احتمالی در متن</th><th>پیامدهای مورد نگرانی نویسنده در صورت تداوم</th></tr></thead><tbody>
+<tr><td>موسیقی غمگین و دِپ</td><td>احساس شنیده‌نشدن، خستگی، دل‌گرفتگی یا فشار درونی؛ جست‌وجوی صدایی برای بازتاب احساسات.</td><td>نویسنده از احتمال تداوم انزوا، افت انرژی و خواب، بی‌انگیزگی و تکرار افکار ناامیدانه ابراز نگرانی می‌کند.</td></tr>
+<tr><td>فندوم و طرفداری</td><td>جست‌وجوی الگو و تعلق گروهی، به‌ویژه وقتی جمع صمیمی واقعی کم‌رنگ باشد.</td><td>نگرانی از وابستگی هویتی، تقلید بی‌چون‌وچرا، اختلال در خواب و درس یا هزینه‌های نامتناسب.</td></tr>
+<tr><td>رپ، دریل و فونک</td><td>نیاز به هیجان، انرژی و راهی برای بیان اعتراض یا خشم.</td><td>نویسنده درباره عادی‌شدن ادبیات توهین‌آمیز و پرخاشگری در اثر تکرار برخی محتواها هشدار می‌دهد.</td></tr>
+<tr><td>هدفون و هندزفری مداوم</td><td>فرار از تنش، فشار درس، سکوت ناآرام یا افکار مزاحم.</td><td>نگرانی درباره کاهش ارتباط خانوادگی، دشواری تمرکز و احتمال آسیب شنوایی در صورت صدای بلند یا استفاده نامناسب.</td></tr>
+</tbody></table>
+<div class="note"><b>حرف حساب:</b> نه باید بی‌تفاوت بود و نه با داد و بیداد برخورد کرد. بهتر است پیش از هر واکنش، نیازها و شرایط واقعی نوجوان را بشناسیم و از قضاوت کلی درباره شخصیت او بر اساس یک آهنگ پرهیز کنیم.</div>
+</section>
+<section class="chapter" id="c6">
+<div class="kicker">بخش ۶</div><h2>چهار اشتباه رایج والدین و جایگزین هوشمندانه آن‌ها</h2>
+<table><thead><tr><th>واکنش آسیب‌زا یا کم‌اثر</th><th>جایگزین پیشنهادی کتابچه</th></tr></thead><tbody>
+<tr><td>تمسخر یا تحقیر سلیقه نوجوان؛ مانند «این چه سروصداییه؟»</td><td>کنجکاوی محترمانه: بپرسید چه چیزی در این سبک یا آهنگ برایش جذاب است.</td></tr>
+<tr><td>برچسب‌زدن به کل شخصیت از روی یک آهنگ و نتیجه‌گیری عجولانه درباره اخلاق یا آینده او.</td><td>جداکردن نوجوان از آهنگ؛ ممکن است ابتدا فقط جذب ریتم یا موج دوستان شده باشد.</td></tr>
+<tr><td>حذف ناگهانی پلی‌لیست یا گرفتن گوشی و هندزفری بدون گفت‌وگو.</td><td>ورود تدریجی، شفاف و چارچوب‌دار؛ درباره زمان و موقعیت استفاده به توافق برسید.</td></tr>
+<tr><td>بی‌تفاوتی کامل و رهاکردن موضوع.</td><td>حضور هوشیارانه بدون بازجویی؛ به تغییر سبک‌ها و حال‌وهوای فرزند توجه کنید و در کنارش باشید.</td></tr>
+</tbody></table>
+<div class="note"><b>قاعده طلایی:</b> حمله و تحقیر معمولاً حالت دفاعی ایجاد می‌کند و شنیدن حرف یکدیگر را دشوار می‌سازد. حفظ احترام، فرصت گفت‌وگو را بیشتر می‌کند.</div>
+</section>
+<section class="chapter" id="c7">
+<div class="kicker">بخش ۷</div><h2>سه سؤال طلایی برای شروع گفت‌وگوی بدون گارد</h2>
+<p>وقتی نوجوان هدفون روی گوش دارد، تذکر مستقیم ممکن است گفت‌وگو را ببندد. این سه سؤال بی‌قضاوت می‌توانند شروع بهتری باشند:</p>
+<div class="q"><b>سؤال ۱</b>«توی این آهنگ بیشتر ریتم و فضاش برات جذابه یا حرف و شعرش؟»<p class="small">این سؤال کمک می‌کند بفهمید نوجوان بیشتر به هیجان صوتی جذب شده یا با پیام ترانه ارتباط برقرار کرده است.</p></div>
+<div class="q"><b>سؤال ۲</b>«اگر بخوای یکی از آهنگ‌های این خواننده رو فقط برای آشنایی به من معرفی کنی، کدوم رو می‌گی؟»<p class="small">وقتی نوجوان مطمئن باشد مسخره نمی‌شود، ممکن است راحت‌تر درباره دنیای موسیقی مورد علاقه‌اش حرف بزند.</p></div>
+<div class="q"><b>سؤال ۳</b>«حس می‌کنی بعد از گوش دادن به این سبک، انرژیت بیشتر می‌شه یا یه کم توی فکر و حال‌وهوای خودش می‌برتت؟»<p class="small">این سؤال فرصتی برای فکرکردن درباره اثر موسیقی بر حال‌وهوای شخصی فراهم می‌کند.</p></div>
+<div class="note"><b>نکته کلیدی:</b> این سه سؤال فقط کلید شروع گفت‌وگو هستند. مهم است پاسخ نوجوان را با حوصله بشنوید و از تبدیل گفت‌وگو به بازجویی یا نصیحت فوری پرهیز کنید.</div>
+</section>
+<section class="chapter" id="c8">
+<div class="kicker">بخش ۸</div><h2>سه پیشنهاد عملی برای شناخت بیشتر و مراقبت از نوجوان</h2>
+<div class="item"><h3>۱. قانون «نوبت دی‌جی در ماشین»</h3><p>در مسیرهای روزمره یا سفرهای کوتاه، انتخاب موسیقی را نوبتی کنید تا بدون تمسخر یا نقد تند بفهمید فرزندتان چه چیزی گوش می‌دهد. اگر مایل بود، از او دعوت کنید موسیقی مورد علاقه‌اش را برای جمع پخش کند.</p></div>
+<div class="item"><h3>۲. روایت خاطره‌های نوجوانی خودتان</h3><p>اگر در نوجوانی موسیقی گوش می‌دادید، به‌جای مقایسه آزاردهنده «زمان ما بهتر بود»، صادقانه بگویید آن زمان چه چیزی برایتان جذاب بود. اگر اهل موسیقی نبودید نیز به علاقه امروز نوجوان بی‌احترامی نکنید.</p></div>
+<div class="item"><h3>۳. مراقبت دوستانه از سلامت شنوایی</h3><p>کتابچه قاعده ۶۰/۶۰ را پیشنهاد می‌کند: بلندی صدا از ۶۰ درصد بیشتر نشود و پس از هر ۶۰ دقیقه شنیدن پیوسته، به گوش‌ها استراحت داده شود. این توصیه را باید با راهنمایی‌های به‌روز سلامت شنوایی و شرایط فردی سنجید؛ درصد صدا در دستگاه‌های مختلف یکسان نیست.</p></div>
+<div class="note"><b>تذکر مهم نویسنده:</b> این پیشنهادها برای ساختن پل ارتباطی و شناخت وضعیت فعلی نوجوان مطرح شده‌اند و از نگاه نویسنده به معنای تأیید همیشگی هر نوع محتوای موسیقی نیستند.</div>
+<h3>قدم بعدی: چطور این گفت‌وگو را به تغییر واقعی برسانیم؟</h3>
+<p>شناخت اصطلاحات و بازکردن سر صحبت، قدم اول است. پس از شنیدن پاسخ نوجوان، باید با احترام و بدون تقابل درباره نگرانی‌ها و انتخاب‌ها گفت‌وگو کرد.</p>
+<p>در کتابچه به آموزش رایگان چهارقسمتی «نحوه مواجهه با نوجوانان طرفدار موسیقی» اشاره شده است.</p>
+<p><b>کانال معرفی‌شده در کتابچه:</b> https://eitaa.com/a_khoshmanzar</p>
+<button class="primary" onclick="window.location.href='https://eitaa.com/a_khoshmanzar'">بازکردن کانال ایتا</button>
+</section>
+<section class="chapter">
+<h2>یادداشت درباره محتوای آموزشی</h2>
+<p class="small">این برنامه متن کتابچه را برای مطالعه روی تلفن همراه بازآرایی کرده است. برخی عبارت‌های مربوط به مغز، خلق‌وخو و پیامدهای موسیقی، دیدگاه یا هشدار نویسنده‌اند و نباید به‌عنوان تشخیص پزشکی یا رابطه علت‌ومعلولی قطعی تلقی شوند. سبک موسیقی به‌تنهایی نشانه اختلال یا مشکل روان‌شناختی نیست. اگر نگرانی پایدار و جدی درباره حال نوجوان وجود دارد، گفت‌وگو با متخصص واجد صلاحیت مناسب‌تر است.</p>
+<p class="small">منبع متن: «شناخت دنیای موسیقی نوجوانان» ـ علیرضا خوش‌منظر | esratm.ir</p>
+</section>
+<footer>نسخه آفلاین اندروید · شناخت دنیای موسیقی نوجوانان</footer>
+</main>
+<script>
+let size=20, dark=false, marked='';
+function changeFont(d){size=Math.max(16,Math.min(30,size+d*2));document.documentElement.style.setProperty('--font',size+'px');}
+function toggleTheme(){dark=!dark;document.documentElement.style.setProperty('--bg',dark?'#17232d':'#f7f5ef');document.documentElement.style.setProperty('--paper',dark?'#22323e':'#fffefa');document.documentElement.style.setProperty('--ink',dark?'#edf2f2':'#243443');document.documentElement.style.setProperty('--muted',dark?'#b4c2c9':'#657585');document.documentElement.style.setProperty('--line',dark?'#3c4c57':'#e6e1d6');}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function toggleBookmark(){let id=marked||'c1';let current=document.elementFromPoint(innerWidth/2,150);let visible=[...document.querySelectorAll('.chapter')].filter(e=>e.getBoundingClientRect().top<innerHeight/2&&e.getBoundingClientRect().bottom>0);if(visible.length)id=visible[0].id;localStorage.setItem('musicReaderBookmark',id);marked=id;alert('نشانک ذخیره شد.');}
+function searchText(q){q=q.trim().toLowerCase();document.querySelectorAll('.chapter,.toc').forEach(el=>{if(!q){el.classList.remove('hidden');return;}el.classList.toggle('hidden',!el.innerText.toLowerCase().includes(q));});}
+function clearSearch(){document.getElementById('search').value='';searchText('');}
+window.addEventListener('load',()=>{marked=localStorage.getItem('musicReaderBookmark')||'c1';});
+</script>
+</body></html>
