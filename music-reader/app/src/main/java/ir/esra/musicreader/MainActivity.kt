@@ -140,7 +140,7 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
         fun openVoiceSettings() {
             runOnUiThread {
                 try {
-                    startActivity(Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA))
+                    startActivity(Intent(TextToSpeech.Engine.ACTION_TTS_SETTINGS))
                 } catch (_: Exception) {
                     startActivity(Intent("com.android.settings.TTS_SETTINGS"))
                 }
