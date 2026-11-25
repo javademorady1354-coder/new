@@ -267,7 +267,8 @@ function toggleAudio(){
  startAudioChapter();
 }
 function stopAudio(){try{AndroidAudio.stop();}catch(e){}audioPlaying=false;audioPaused=false;audioParagraphIndex=0;document.getElementById('audioPlay').textContent='▶ پخش فصل';audioStatus('پخش متوقف شد.');}
-function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audioStatus('تنظیمات موتور گفتار در دسترس نیست.');}}\nfunction downloadAvaCore(){window.location.href='https://github.com/PlayFoundryHQ/AvaCore/releases/download/v2.0.1/avacore-latest.apk';}
+function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audioStatus('تنظیمات موتور گفتار در دسترس نیست.');}}
+function downloadAvaCore(){window.location.href='https://github.com/PlayFoundryHQ/AvaCore/releases/download/v2.0.1/avacore-latest.apk';}
 function previousAudioChapter(){stopAudio();audioChapterIndex=Math.max(0,audioChapterIndex-1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 function nextAudioChapter(){stopAudio();audioChapterIndex=Math.min(audioChapters.length-1,audioChapterIndex+1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 window.addEventListener('load',()=>{setTimeout(()=>{try{loadAudioVoices();}catch(e){}},900);});
