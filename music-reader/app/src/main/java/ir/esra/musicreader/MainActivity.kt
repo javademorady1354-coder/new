@@ -73,12 +73,10 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
             val engine = tts ?: return
             try {
                 engine.setLanguage(Locale("fa", "IR"))
+                // Keep every Persian voice in the list so the UI can distinguish
+                // installed voices from voices that the user may need to download.
                 currentVoices = engine.voices
-                    ?.filter {
-                        it.locale.language == "fa" &&
-                            !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS) &&
-                            !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
-                    }
+                    ?.filter { it.locale.language == "fa" }
                     ?.sortedBy { it.name.lowercase(Locale.ROOT) }
                     ?: emptyList()
             } catch (_: Exception) {
@@ -139,6 +137,8 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
                     .put("name", voice.name)
                     .put("gender", genderFor(voice))
                     .put("quality", voice.quality)
+                    .put("installed", !voice.features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED))
+                    .put("network", voice.features.contains(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS))
             )
         }
         result.put("voices", voices)
