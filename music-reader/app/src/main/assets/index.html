@@ -234,7 +234,7 @@ function loadAudioVoices(){
   const select=document.getElementById('audioVoice');select.innerHTML='';
   const voices=(data.voices||[]);
   if(!data.ready){select.innerHTML='<option value="">موتور گفتار آماده نیست</option>';audioStatus('موتور تبدیل متن به گفتار در این دستگاه آماده نشد.');return;}
-  if(!voices.length){select.innerHTML='<option value="">صدای فارسی آفلاین پیدا نشد</option>';audioStatus('صدای فارسی آفلاین پیدا نشد. AvaCore را نصب کنید، در تنظیمات گفتار اندروید به‌عنوان موتور پیش‌فرض انتخاب کنید و برنامه را دوباره باز کنید.');return;}
+  if(!voices.length){select.innerHTML='<option value="">صدای پیش‌فرض موتور دستگاه</option>';select.value='';audioStatus('صدای فارسیِ نام‌دار پیدا نشد؛ پخش با صدای پیش‌فرض موتور دستگاه امتحان می‌شود. اگر صدا شنیده نشد، در تنظیمات گفتار اندروید زبان فارسی و دادهٔ صوتی آن را بررسی کنید.');return;}
   voices.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=(v.gender==='female'?'صدای زن · ':v.gender==='male'?'صدای مرد · ':'صدای فارسی · ')+v.name;select.appendChild(o);});
   const preferred=voices.find(v=>v.gender==='female')||voices.find(v=>v.gender==='male')||voices[0];select.value=preferred.name;
   const genders=new Set(voices.map(v=>v.gender));
@@ -271,7 +271,41 @@ function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audi
 function downloadAvaCore(){window.location.href='https://github.com/PlayFoundryHQ/AvaCore/releases/download/v2.0.1/avacore-latest.apk';}
 function previousAudioChapter(){stopAudio();audioChapterIndex=Math.max(0,audioChapterIndex-1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 function nextAudioChapter(){stopAudio();audioChapterIndex=Math.min(audioChapters.length-1,audioChapterIndex+1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
-window.addEventListener('load',()=>{setTimeout(()=>{try{loadAudioVoices();}catch(e){}},900);});
+
+// در WebView ممکن است آماده‌شدن موتور گفتار قبل از بارگذاری صفحه رخ دهد؛
+ // پس از بارگذاری نیز وضعیت موتور را دوباره دریافت می‌کنیم.
+window.addEventListener('load',()=>{setTimeout(()=>{try{audioReady=!!AndroidAudio.isReady();loadAudioVoices();}catch(e){audioStatus('موتور گفتار در دسترس نیست.');}},300);});
+
+// با دوبار لمس/کلیک روی یک بند، همان بند خوانده می‌شود.
+function speakSelectedText(text, chapterId){
+ const clean=(text||'').trim(); if(!clean)return;
+ const idx=audioChapters.indexOf(chapterId); if(idx>=0)audioChapterIndex=idx;
+ try{
+  if(!audioReady)audioReady=!!AndroidAudio.isReady();
+  if(!audioReady){audioStatus('موتور گفتار هنوز آماده نیست؛ چند لحظه بعد دوباره امتحان کنید.');return;}
+  audioParagraphs=[clean];audioParagraphIndex=0;audioPlaying=true;audioPaused=false;
+  document.getElementById('audioPlay').textContent='Ⅱ مکث';
+  audioStatus('در حال خواندن متن انتخاب‌شده…');speakNextParagraph();
+ }catch(e){audioStatus('خواندن این متن ممکن نشد. تنظیمات گفتار دستگاه را بررسی کنید.');}
+}
+document.addEventListener('dblclick',e=>{
+ const target=e.target.closest('p,h3,.term,.card,.item');
+ if(!target||target.closest('#audioPanel,button,input,select,textarea'))return;
+ const chapter=target.closest('.chapter');
+ speakSelectedText(target.innerText,chapter?chapter.id:'');
+});
+let lastTapAt=0,lastTapTarget=null;
+document.addEventListener('click',e=>{
+ const target=e.target.closest('p,h3,.term,.card,.item');
+ if(!target||target.closest('#audioPanel,button,input,select,textarea'))return;
+ const now=Date.now();
+ if(target===lastTapTarget&&now-lastTapAt<420){
+  lastTapAt=0;lastTapTarget=null;
+  const chapter=target.closest('.chapter');
+  speakSelectedText(target.innerText,chapter?chapter.id:'');
+ }else{lastTapAt=now;lastTapTarget=target;}
+});
+
 
 </script>
 </body></html>
