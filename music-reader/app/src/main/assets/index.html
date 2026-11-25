@@ -70,7 +70,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
  <div class="audioTitle">🎧 پخش صوتی کتاب</div>
  <div class="audioRow">
   <select id="audioVoice" aria-label="انتخاب گوینده"><option value="">در حال بررسی صداهای فارسی...</option></select>
-  <button type="button" onclick="openVoiceSettings()">نصب صدای آفلاین</button>
+  <button type="button" onclick="openVoiceSettings()">تنظیم موتور صدای فارسی</button><button type="button" onclick="downloadAvaCore()">دریافت صدای آفلاین AvaCore</button>
  </div>
  <div class="audioRow">
   <button type="button" onclick="previousAudioChapter()">فصل قبل</button>
@@ -86,7 +86,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
    <input id="audioVolume" type="range" min="0" max="1" step="0.05" value="1">
   </label>
  </div>
- <div id="audioStatus">برای پخش آفلاین، باید صدای فارسی در تنظیمات گفتار اندروید نصب شده باشد.</div>
+ <div id="audioStatus">برای صدای فارسی آفلاین، AvaCore را نصب کنید، آن را در تنظیمات گفتار اندروید انتخاب کنید و سپس این برنامه را دوباره باز کنید.</div>
 </section>
 
 <div class="toolbar">
@@ -234,7 +234,7 @@ function loadAudioVoices(){
   const select=document.getElementById('audioVoice');select.innerHTML='';
   const voices=(data.voices||[]);
   if(!data.ready){select.innerHTML='<option value="">موتور گفتار آماده نیست</option>';audioStatus('موتور تبدیل متن به گفتار در این دستگاه آماده نشد.');return;}
-  if(!voices.length){select.innerHTML='<option value="">صدای فارسی آفلاین پیدا نشد</option>';audioStatus('صدای فارسی آفلاین نصب نیست. دکمه «نصب صدای آفلاین» را بزنید و سپس برنامه را دوباره باز کنید.');return;}
+  if(!voices.length){select.innerHTML='<option value="">صدای فارسی آفلاین پیدا نشد</option>';audioStatus('صدای فارسی آفلاین پیدا نشد. AvaCore را نصب کنید، در تنظیمات گفتار اندروید به‌عنوان موتور پیش‌فرض انتخاب کنید و برنامه را دوباره باز کنید.');return;}
   voices.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=(v.gender==='female'?'صدای زن · ':v.gender==='male'?'صدای مرد · ':'صدای فارسی · ')+v.name;select.appendChild(o);});
   const preferred=voices.find(v=>v.gender==='female')||voices.find(v=>v.gender==='male')||voices[0];select.value=preferred.name;
   const genders=new Set(voices.map(v=>v.gender));
@@ -267,7 +267,7 @@ function toggleAudio(){
  startAudioChapter();
 }
 function stopAudio(){try{AndroidAudio.stop();}catch(e){}audioPlaying=false;audioPaused=false;audioParagraphIndex=0;document.getElementById('audioPlay').textContent='▶ پخش فصل';audioStatus('پخش متوقف شد.');}
-function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audioStatus('تنظیمات نصب صدای گفتار در دسترس نیست.');}}
+function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audioStatus('تنظیمات موتور گفتار در دسترس نیست.');}}\nfunction downloadAvaCore(){window.location.href='https://github.com/PlayFoundryHQ/AvaCore/releases/download/v2.0.1/avacore-latest.apk';}
 function previousAudioChapter(){stopAudio();audioChapterIndex=Math.max(0,audioChapterIndex-1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 function nextAudioChapter(){stopAudio();audioChapterIndex=Math.min(audioChapters.length-1,audioChapterIndex+1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 window.addEventListener('load',()=>{setTimeout(()=>{try{loadAudioVoices();}catch(e){}},900);});
