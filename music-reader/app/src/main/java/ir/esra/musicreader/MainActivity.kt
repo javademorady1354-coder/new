@@ -20,7 +20,8 @@ import java.util.Locale
 class MainActivity : Activity(), TextToSpeech.OnInitListener {
     private lateinit var reader: WebView
     private var tts: TextToSpeech? = null
-    private var ttsReady = false
+    @Volatile private var ttsReady = false
+    @Volatile private var pageLoaded = false
     private var currentVoices: List<Voice> = emptyList()
 
     @Suppress("SetJavaScriptEnabled")
@@ -28,28 +29,35 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         window.statusBarColor = Color.rgb(18, 39, 57)
         window.navigationBarColor = Color.rgb(18, 39, 57)
-        reader = WebView(this)
-        reader.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        reader.setBackgroundColor(Color.rgb(248, 247, 242))
-        reader.settings.javaScriptEnabled = true
-        reader.settings.domStorageEnabled = true
-        reader.settings.allowFileAccess = true
-        reader.settings.allowContentAccess = false
-        reader.addJavascriptInterface(AudioBridge(), "AndroidAudio")
-        reader.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                val uri = request.url
-                if (uri.scheme == "https" || uri.scheme == "http") {
-                    startActivity(Intent(Intent.ACTION_VIEW, uri))
-                    return true
+        reader = WebView(this).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            setBackgroundColor(Color.rgb(248, 247, 242))
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            settings.allowFileAccess = true
+            settings.allowContentAccess = false
+            addJavascriptInterface(AudioBridge(), "AndroidAudio")
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    super.onPageFinished(view, url)
+                    pageLoaded = true
+                    publishAudioState()
                 }
-                return false
+
+                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                    val uri = request.url
+                    if (uri.scheme == "https" || uri.scheme == "http") {
+                        startActivity(Intent(Intent.ACTION_VIEW, uri))
+                        return true
+                    }
+                    return false
+                }
             }
+            webChromeClient = WebChromeClient()
         }
-        reader.webChromeClient = WebChromeClient()
         setContentView(reader)
         tts = TextToSpeech(this, this)
         if (savedInstanceState == null) {
@@ -61,36 +69,55 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         ttsReady = status == TextToSpeech.SUCCESS
-        if (!ttsReady) {
-            notifyPage("nativeAudioReady(false)")
-            return
+        if (ttsReady) {
+            val engine = tts ?: return
+            try {
+                engine.setLanguage(Locale("fa", "IR"))
+                currentVoices = engine.voices
+                    ?.filter {
+                        it.locale.language == "fa" &&
+                            !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS) &&
+                            !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
+                    }
+                    ?.sortedBy { it.name.lowercase(Locale.ROOT) }
+                    ?: emptyList()
+            } catch (_: Exception) {
+                currentVoices = emptyList()
+            }
+            engine.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(utteranceId: String) {}
+                override fun onDone(utteranceId: String) {
+                    notifyPage("nativeSpeechDone()")
+                }
+                @Deprecated("Deprecated in Java")
+                override fun onError(utteranceId: String) {
+                    notifyPage("nativeSpeechError()")
+                }
+                override fun onError(utteranceId: String, errorCode: Int) {
+                    notifyPage("nativeSpeechError()")
+                }
+            })
         }
-        val engine = tts ?: return
-        engine.language = Locale("fa", "IR")
-        currentVoices = engine.voices
-            ?.filter { it.locale.language == "fa" && !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS) &&
-                !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED) }
-            ?.sortedBy { it.name.lowercase(Locale.ROOT) }
-            ?: emptyList()
-        engine.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-            override fun onStart(utteranceId: String) {}
-            override fun onDone(utteranceId: String) {
-                notifyPage("nativeSpeechDone()")
+        publishAudioState()
+    }
+
+    private fun publishAudioState() {
+        if (!pageLoaded) return
+        val ready = ttsReady
+        runOnUiThread {
+            if (::reader.isInitialized && pageLoaded) {
+                reader.evaluateJavascript("window.nativeAudioReady($ready);", null)
+                reader.evaluateJavascript("if(window.loadAudioVoices)window.loadAudioVoices();", null)
             }
-            @Deprecated("Deprecated in Java")
-            override fun onError(utteranceId: String) {
-                notifyPage("nativeSpeechError()")
-            }
-            override fun onError(utteranceId: String, errorCode: Int) {
-                notifyPage("nativeSpeechError()")
-            }
-        })
-        notifyPage("nativeAudioReady(true)")
+        }
     }
 
     private fun notifyPage(script: String) {
-        if (::reader.isInitialized) runOnUiThread {
-            reader.evaluateJavascript("window.$script", null)
+        if (!pageLoaded) return
+        runOnUiThread {
+            if (::reader.isInitialized && pageLoaded) {
+                reader.evaluateJavascript("window.$script", null)
+            }
         }
     }
 
@@ -104,12 +131,15 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
     }
 
     private fun voiceListJson(): String {
-        val result = JSONObject()
-        result.put("ready", ttsReady)
+        val result = JSONObject().put("ready", ttsReady)
         val voices = JSONArray()
         currentVoices.forEach { voice ->
-            voices.put(JSONObject().put("name", voice.name).put("gender", genderFor(voice))
-                .put("quality", voice.quality))
+            voices.put(
+                JSONObject()
+                    .put("name", voice.name)
+                    .put("gender", genderFor(voice))
+                    .put("quality", voice.quality)
+            )
         }
         result.put("voices", voices)
         return result.toString()
@@ -117,18 +147,35 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
 
     inner class AudioBridge {
         @JavascriptInterface
+        fun isReady(): Boolean = ttsReady
+
+        @JavascriptInterface
         fun getVoices(): String = voiceListJson()
 
         @JavascriptInterface
         fun speak(text: String, voiceName: String, rate: Float, volume: Float): Boolean {
             if (!ttsReady || text.isBlank()) return false
             val engine = tts ?: return false
-            val selected = currentVoices.firstOrNull { it.name == voiceName }
-            if (selected != null) engine.voice = selected
-            else if (engine.voices?.any { it.name == voiceName } == true) return false
-            engine.setSpeechRate(rate.coerceIn(0.65f, 1.35f))
-            val params = Bundle().apply { putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume.coerceIn(0f, 1f)) }
-            return engine.speak(text, TextToSpeech.QUEUE_FLUSH, params, System.currentTimeMillis().toString()) == TextToSpeech.SUCCESS
+            return try {
+                val selected = currentVoices.firstOrNull { it.name == voiceName }
+                if (selected != null) {
+                    engine.voice = selected
+                } else if (voiceName.isNotBlank()) {
+                    return false
+                }
+                engine.setSpeechRate(rate.coerceIn(0.65f, 1.35f))
+                val params = Bundle().apply {
+                    putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume.coerceIn(0f, 1f))
+                }
+                engine.speak(
+                    text,
+                    TextToSpeech.QUEUE_FLUSH,
+                    params,
+                    "music-reader-${System.currentTimeMillis()}"
+                ) == TextToSpeech.SUCCESS
+            } catch (_: Exception) {
+                false
+            }
         }
 
         @JavascriptInterface
@@ -142,7 +189,10 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
                 try {
                     startActivity(Intent(TextToSpeech.Engine.ACTION_TTS_SETTINGS))
                 } catch (_: Exception) {
-                    startActivity(Intent("com.android.settings.TTS_SETTINGS"))
+                    try {
+                        startActivity(Intent("com.android.settings.TTS_SETTINGS"))
+                    } catch (_: Exception) {
+                    }
                 }
             }
         }
@@ -154,6 +204,7 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
     }
 
     override fun onDestroy() {
+        pageLoaded = false
         tts?.stop()
         tts?.shutdown()
         super.onDestroy()
