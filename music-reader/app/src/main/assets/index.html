@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#122739">
 <title>شناخت دنیای موسیقی نوجوانان</title>
 <style>
-:root{--bg:#f7f5ef;--paper:#fffefa;--ink:#243443;--muted:#657585;--accent:#167c80;--accent2:#e6a84a;--line:#e6e1d6;--soft:#eaf3f1;--font:20px}
+:root{--bg:#f7f5ef;--paper:#fffefa;--ink:#243443;--muted:#657585;--accent:#167c80;--accent2:#e6a84a;--line:#e6e1d6;--soft:#eaf3f1;--font:22px}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Naskh Arabic","Noto Sans Arabic",Tahoma,Arial,sans-serif;font-size:var(--font);line-height:2.05}
 header{background:linear-gradient(135deg,#122739,#1d5861);color:white;padding:24px 18px 18px;border-radius:0 0 25px 25px;box-shadow:0 5px 20px #102b3a24}
 .topline{font-size:13px;opacity:.8;letter-spacing:.3px}.brand{font-size:13px;color:#cde5df;margin-top:8px}
@@ -180,8 +180,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 <footer>نسخه آفلاین اندروید · شناخت دنیای موسیقی نوجوانان</footer>
 </main>
 <script>
-let size=20, dark=false, marked='';
-function changeFont(d){size=Math.max(16,Math.min(30,size+d*2));document.documentElement.style.setProperty('--font',size+'px');}
+let size=22, dark=false, marked='';
+function changeFont(d){size=Math.max(16,Math.min(32,size+d*2));document.documentElement.style.setProperty('--font',size+'px');}
 function toggleTheme(){dark=!dark;document.documentElement.style.setProperty('--bg',dark?'#17232d':'#f7f5ef');document.documentElement.style.setProperty('--paper',dark?'#22323e':'#fffefa');document.documentElement.style.setProperty('--ink',dark?'#edf2f2':'#243443');document.documentElement.style.setProperty('--muted',dark?'#b4c2c9':'#657585');document.documentElement.style.setProperty('--line',dark?'#3c4c57':'#e6e1d6');}
 function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 function resumeBookmark(){let id=localStorage.getItem('musicReaderBookmark');if(id&&document.getElementById(id))go(id);else alert('هنوز نشانکی ذخیره نشده است.');}
