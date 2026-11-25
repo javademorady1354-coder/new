@@ -271,5 +271,6 @@ function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audi
 function previousAudioChapter(){stopAudio();audioChapterIndex=Math.max(0,audioChapterIndex-1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 function nextAudioChapter(){stopAudio();audioChapterIndex=Math.min(audioChapters.length-1,audioChapterIndex+1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
 window.addEventListener('load',()=>{setTimeout(()=>{try{loadAudioVoices();}catch(e){}},900);});
-\n</script>
+
+</script>
 </body></html>
