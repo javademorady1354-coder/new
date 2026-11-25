@@ -231,15 +231,69 @@ function audioStatus(t){const e=document.getElementById('audioStatus');if(e)e.te
 function loadAudioVoices(){
  try{
   const data=JSON.parse(AndroidAudio.getVoices());
-  const select=document.getElementById('audioVoice');select.innerHTML='';
+  const select=document.getElementById('audioVoice');
+  select.innerHTML='';
   const voices=(data.voices||[]);
-  if(!data.ready){select.innerHTML='<option value="">موتور گفتار آماده نیست</option>';audioStatus('موتور تبدیل متن به گفتار در این دستگاه آماده نشد.');return;}
-  if(!voices.length){select.innerHTML='<option value="">صدای پیش‌فرض موتور دستگاه</option>';select.value='';audioStatus('صدای فارسیِ نام‌دار پیدا نشد؛ پخش با صدای پیش‌فرض موتور دستگاه امتحان می‌شود. اگر صدا شنیده نشد، در تنظیمات گفتار اندروید زبان فارسی و دادهٔ صوتی آن را بررسی کنید.');return;}
-  voices.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=(v.gender==='female'?'صدای زن · ':v.gender==='male'?'صدای مرد · ':'صدای فارسی · ')+v.name;select.appendChild(o);});
-  const preferred=voices.find(v=>v.gender==='female')||voices.find(v=>v.gender==='male')||voices[0];select.value=preferred.name;
-  const genders=new Set(voices.map(v=>v.gender));
-  audioStatus(genders.has('female')&&genders.has('male')?'صدای زن و مرد آفلاین در دسترس است.':'صداهای آفلاین فارسی پیدا شد؛ اگر هر دو جنس صدا در فهرست نیست، باید بسته صدای دیگری نصب شود.');
- }catch(e){audioStatus('ارتباط با موتور گفتار برقرار نشد. برنامه را یک‌بار ببندید و دوباره باز کنید.');}
+  if(!data.ready){
+   select.innerHTML='<option value="">موتور گفتار آماده نیست</option>';
+   audioStatus('موتور تبدیل متن به گفتار در این دستگاه آماده نشد.');
+   return;
+  }
+  const installed=voices.filter(v=>v.installed!==false);
+  const addGroup=(gender,label)=>{
+   const matches=installed.filter(v=>v.gender===gender);
+   if(!matches.length){
+    const missing=document.createElement('option');
+    missing.value='__missing_'+gender+'__';
+    missing.textContent=label+' — صدایی نصب نشده';
+    missing.disabled=true;
+    select.appendChild(missing);
+    return false;
+   }
+   const group=document.createElement('optgroup');
+   group.label=label;
+   matches.forEach(v=>{
+    const option=document.createElement('option');
+    option.value=v.name;
+    option.textContent=v.name+(v.network?' · آنلاین':' · آفلاین');
+    group.appendChild(option);
+   });
+   select.appendChild(group);
+   return true;
+  };
+  const hasMale=addGroup('male','صدای مرد');
+  const hasFemale=addGroup('female','صدای زن');
+  const unknown=installed.filter(v=>v.gender!=='male'&&v.gender!=='female');
+  if(unknown.length){
+   const group=document.createElement('optgroup');
+   group.label='صداهای فارسی دیگر';
+   unknown.forEach(v=>{
+    const option=document.createElement('option');
+    option.value=v.name;
+    option.textContent=v.name+(v.network?' · آنلاین':' · آفلاین');
+    group.appendChild(option);
+   });
+   select.appendChild(group);
+  }
+  if(!installed.length){
+   const fallback=document.createElement('option');
+   fallback.value='';
+   fallback.textContent='صدای پیش‌فرض موتور دستگاه';
+   select.appendChild(fallback);
+   audioStatus('صدای پیش‌فرض دستگاه فعال است، اما صدای مرد یا زنِ قابل انتخاب پیدا نشد. از دکمه «تنظیم موتور صدای فارسی» یک صدای فارسی دیگر نصب کنید.');
+   return;
+  }
+  const preferred=installed.find(v=>v.gender==='female')||installed.find(v=>v.gender==='male')||installed[0];
+  select.value=preferred.name;
+  if(hasMale&&hasFemale){
+   audioStatus('هر دو گزینه صدای مرد و زن پیدا شد؛ از فهرست بالا گوینده دلخواه را انتخاب کنید.');
+  }else{
+   const missing=hasMale?'زن':'مرد';
+   audioStatus('گزینه صدای '+(hasMale?'مرد':'زن')+' موجود است؛ صدای '+missing+' هنوز روی موتور گفتار گوشی نصب یا شناسایی نشده است. برای افزودن آن، تنظیمات موتور گفتار را باز کنید.');
+  }
+ }catch(e){
+  audioStatus('ارتباط با موتور گفتار برقرار نشد. برنامه را یک‌بار ببندید و دوباره باز کنید.');
+ }
 }
 function nativeAudioReady(ok){audioReady=ok;if(ok)loadAudioVoices();else audioStatus('موتور گفتار اندروید در دسترس نیست.');}
 function nativeSpeechDone(){if(!audioPlaying||audioPaused)return;audioParagraphIndex++;speakNextParagraph();}
