@@ -46,6 +46,18 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 .hidden{display:none!important}.small{font-size:14px;color:var(--muted)}
 @media(min-width:650px){.grid.two{grid-template-columns:1fr 1fr}.chapter{padding:24px 28px}}
 </style>
+<style>
+#audioPanel{margin:14px 13px 0;padding:14px;background:#173746;color:#fff;border-radius:17px;box-shadow:0 5px 16px #102b3a20}
+#audioPanel .audioTitle{font-size:16px;font-weight:bold;margin-bottom:8px}
+#audioPanel .audioRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+#audioPanel button,#audioPanel select{font:inherit;font-size:13px;border:1px solid #56717b;border-radius:10px;padding:8px 10px;background:#fff;color:#18323e}
+#audioPanel button.play{background:#e6a84a;color:#172b36;border-color:#e6a84a;font-weight:bold}
+#audioPanel select{max-width:100%;flex:1;min-width:120px}
+#audioPanel label{font-size:12px;color:#d9e6e7}
+#audioPanel input{width:100%;accent-color:#e6a84a}
+#audioStatus{font-size:12px;color:#d3e4e5;margin-top:7px;line-height:1.7}
+</style>
+
 </head>
 <body>
 <header>
@@ -54,6 +66,29 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 <p>راهنمای آشنایی والدین، مربیان و دغدغه‌مندان تربیتی</p>
 <div class="brand">مولف: علیرضا خوش‌منظر</div>
 </header>
+<section id="audioPanel" aria-label="پخش صوتی کتاب">
+ <div class="audioTitle">🎧 پخش صوتی کتاب</div>
+ <div class="audioRow">
+  <select id="audioVoice" aria-label="انتخاب گوینده"><option value="">در حال بررسی صداهای فارسی...</option></select>
+  <button type="button" onclick="openVoiceSettings()">نصب صدای آفلاین</button>
+ </div>
+ <div class="audioRow">
+  <button type="button" onclick="previousAudioChapter()">فصل قبل</button>
+  <button type="button" class="play" id="audioPlay" onclick="toggleAudio()">▶ پخش فصل</button>
+  <button type="button" onclick="stopAudio()">■ توقف</button>
+  <button type="button" onclick="nextAudioChapter()">فصل بعد</button>
+ </div>
+ <div class="audioRow">
+  <label style="flex:1">سرعت پخش <span id="rateValue">۱٫۰</span>
+   <input id="audioRate" type="range" min="0.65" max="1.35" step="0.05" value="1" oninput="document.getElementById('rateValue').textContent=Number(this.value).toFixed(2)">
+  </label>
+  <label style="flex:1">بلندی صدا
+   <input id="audioVolume" type="range" min="0" max="1" step="0.05" value="1">
+  </label>
+ </div>
+ <div id="audioStatus">برای پخش آفلاین، باید صدای فارسی در تنظیمات گفتار اندروید نصب شده باشد.</div>
+</section>
+
 <div class="toolbar">
 <button onclick="changeFont(-1)" aria-label="کوچک کردن نوشته">A−</button>
 <button onclick="changeFont(1)" aria-label="بزرگ کردن نوشته">A+</button>
@@ -189,5 +224,52 @@ function toggleBookmark(){let id=marked||'c1';let current=document.elementFromPo
 function searchText(q){q=q.trim().toLowerCase();document.querySelectorAll('.chapter,.toc').forEach(el=>{if(!q){el.classList.remove('hidden');return;}el.classList.toggle('hidden',!el.innerText.toLowerCase().includes(q));});}
 function clearSearch(){document.getElementById('search').value='';searchText('');}
 window.addEventListener('load',()=>{marked=localStorage.getItem('musicReaderBookmark')||'c1';});
-</script>
+
+let audioChapters = ['intro','c1','c2','c3','c4','c5','c6','c7','c8'];
+let audioChapterIndex = 0, audioParagraphs = [], audioParagraphIndex = 0, audioPlaying = false, audioPaused = false, audioReady = false;
+function audioStatus(t){const e=document.getElementById('audioStatus');if(e)e.textContent=t;}
+function loadAudioVoices(){
+ try{
+  const data=JSON.parse(AndroidAudio.getVoices());
+  const select=document.getElementById('audioVoice');select.innerHTML='';
+  const voices=(data.voices||[]);
+  if(!data.ready){select.innerHTML='<option value="">موتور گفتار آماده نیست</option>';audioStatus('موتور تبدیل متن به گفتار در این دستگاه آماده نشد.');return;}
+  if(!voices.length){select.innerHTML='<option value="">صدای فارسی آفلاین پیدا نشد</option>';audioStatus('صدای فارسی آفلاین نصب نیست. دکمه «نصب صدای آفلاین» را بزنید و سپس برنامه را دوباره باز کنید.');return;}
+  voices.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=(v.gender==='female'?'صدای زن · ':v.gender==='male'?'صدای مرد · ':'صدای فارسی · ')+v.name;select.appendChild(o);});
+  const preferred=voices.find(v=>v.gender==='female')||voices.find(v=>v.gender==='male')||voices[0];select.value=preferred.name;
+  const genders=new Set(voices.map(v=>v.gender));
+  audioStatus(genders.has('female')&&genders.has('male')?'صدای زن و مرد آفلاین در دسترس است.':'صداهای آفلاین فارسی پیدا شد؛ اگر هر دو جنس صدا در فهرست نیست، باید بسته صدای دیگری نصب شود.');
+ }catch(e){audioStatus('ارتباط با موتور گفتار برقرار نشد. برنامه را یک‌بار ببندید و دوباره باز کنید.');}
+}
+function nativeAudioReady(ok){audioReady=ok;if(ok)loadAudioVoices();else audioStatus('موتور گفتار اندروید در دسترس نیست.');}
+function nativeSpeechDone(){if(!audioPlaying||audioPaused)return;audioParagraphIndex++;speakNextParagraph();}
+function nativeSpeechError(){audioPlaying=false;document.getElementById('audioPlay').textContent='▶ پخش فصل';audioStatus('پخش صوت با خطا روبه‌رو شد. صدای فارسی آفلاین دستگاه را بررسی کنید.');}
+function getChapterTitle(){const section=document.getElementById(audioChapters[audioChapterIndex]);return section?section.querySelector('h2')?.textContent||'فصل':'';}
+function startAudioChapter(){
+ const section=document.getElementById(audioChapters[audioChapterIndex]);if(!section)return;
+ audioParagraphs=[...section.querySelectorAll('p,h3,.term,.card')].map(e=>e.innerText.trim()).filter(Boolean);
+ audioParagraphIndex=0;audioPlaying=true;audioPaused=false;
+ document.getElementById('audioPlay').textContent='Ⅱ مکث';
+ audioStatus('در حال پخش: '+getChapterTitle());speakNextParagraph();
+}
+function speakNextParagraph(){
+ if(!audioPlaying||audioPaused)return;
+ if(audioParagraphIndex>=audioParagraphs.length){audioPlaying=false;document.getElementById('audioPlay').textContent='▶ پخش فصل';audioStatus('پخش این بخش به پایان رسید.');return;}
+ const voice=document.getElementById('audioVoice').value;
+ const rate=Number(document.getElementById('audioRate').value),volume=Number(document.getElementById('audioVolume').value);
+ const ok=AndroidAudio.speak(audioParagraphs[audioParagraphIndex],voice,rate,volume);
+ if(!ok)nativeSpeechError();
+}
+function toggleAudio(){
+ if(!audioReady){loadAudioVoices();return;}
+ if(audioPlaying&&!audioPaused){AndroidAudio.stop();audioPaused=true;document.getElementById('audioPlay').textContent='▶ ادامه';audioStatus('پخش مکث شده است. برای ادامه، دکمه را بزنید.');return;}
+ if(audioPaused){audioPaused=false;audioPlaying=true;document.getElementById('audioPlay').textContent='Ⅱ مکث';speakNextParagraph();return;}
+ startAudioChapter();
+}
+function stopAudio(){try{AndroidAudio.stop();}catch(e){}audioPlaying=false;audioPaused=false;audioParagraphIndex=0;document.getElementById('audioPlay').textContent='▶ پخش فصل';audioStatus('پخش متوقف شد.');}
+function openVoiceSettings(){try{AndroidAudio.openVoiceSettings();}catch(e){audioStatus('تنظیمات نصب صدای گفتار در دسترس نیست.');}}
+function previousAudioChapter(){stopAudio();audioChapterIndex=Math.max(0,audioChapterIndex-1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
+function nextAudioChapter(){stopAudio();audioChapterIndex=Math.min(audioChapters.length-1,audioChapterIndex+1);audioStatus('بخش انتخاب‌شده: '+getChapterTitle());}
+window.addEventListener('load',()=>{setTimeout(()=>{try{loadAudioVoices();}catch(e){}},900);});
+\n</script>
 </body></html>
