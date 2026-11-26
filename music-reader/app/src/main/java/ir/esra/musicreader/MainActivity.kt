@@ -72,7 +72,7 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
         if (ttsReady) {
             val engine = tts ?: return
             try {
-                engine.setLanguage(Locale("fa", "IR"))
+                val languageStatus = engine.setLanguage(Locale("fa", "IR"))
                 // Keep every Persian voice in the list so the UI can distinguish
                 // installed voices from voices that the user may need to download.
                 currentVoices = engine.voices
@@ -162,6 +162,19 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
                     engine.voice = selected
                 } else if (voiceName.isNotBlank()) {
                     return false
+                } else {
+                    // When the user keeps the default voice, explicitly select an
+                    // installed Persian voice or verify that the engine supports fa-IR.
+                    val installedPersian = currentVoices.firstOrNull {
+                        !it.features.contains(TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED)
+                    }
+                    if (installedPersian != null) {
+                        engine.voice = installedPersian
+                    } else {
+                        val languageStatus = engine.setLanguage(Locale("fa", "IR"))
+                        if (languageStatus == TextToSpeech.LANG_MISSING_DATA ||
+                            languageStatus == TextToSpeech.LANG_NOT_SUPPORTED) return false
+                    }
                 }
                 engine.setSpeechRate(rate.coerceIn(0.65f, 1.35f))
                 val params = Bundle().apply {
@@ -190,7 +203,7 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
                     startActivity(Intent("com.android.settings.TTS_SETTINGS"))
                 } catch (_: Exception) {
                     try {
-                        startActivity(Intent("com.android.settings.TTS_SETTINGS"))
+                        startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
                     } catch (_: Exception) {
                     }
                 }
