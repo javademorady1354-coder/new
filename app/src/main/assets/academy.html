@@ -28,6 +28,9 @@ footer{text-align:center;color:#8fa3bb;font-size:10px;padding:15px}
 body.font-large p,body.font-large li,body.font-large .tip{font-size:16px}
 body.font-large h2{font-size:20px}
 body.font-large h3{font-size:16px}
+body.font-xlarge p,body.font-xlarge li,body.font-xlarge .tip{font-size:19px}
+body.font-xlarge h2{font-size:23px}
+body.font-xlarge h3{font-size:19px}
 @media(max-width:380px){.display-settings{grid-template-columns:1fr}}
 
 </style></head>
@@ -59,8 +62,10 @@ body.font-large h3{font-size:16px}
 <select id="fontSizeChoice">
 <option value="normal">معمولی</option>
 <option value="large">درشت</option>
+<option value="xlarge">خیلی درشت</option>
 </select></label>
 </div>
+<div class="row" style="margin-top:10px"><button type="button" class="secondary" id="resetDisplaySettings">بازگشت به تنظیمات پیش‌فرض</button></div>
 </section>
 
 <section class="panel" id="science"><h2>۱. مغز چگونه یاد می‌گیرد؟</h2>
@@ -144,6 +149,7 @@ function applyDisplaySettings(){
  const size=localStorage.getItem("mind-font-size")||"normal";
  document.body.style.fontFamily=font;
  document.body.classList.toggle("font-large",size==="large");
+ document.body.classList.toggle("font-xlarge",size==="xlarge");
  const palettes={
   dark:{bg:"#101827",panel:"#1b2a40",ink:"#f5f8fc",muted:"#afbed1",accent:"#65d6ad",line:"#405875"},
   light:{bg:"#f2f5f9",panel:"#ffffff",ink:"#1b2735",muted:"#526477",accent:"#087f68",line:"#c5d0dc"},
@@ -166,6 +172,9 @@ function applyDisplaySettings(){
 $("fontChoice").addEventListener("change",function(){localStorage.setItem("mind-font",this.value);applyDisplaySettings()});
 $("colorChoice").addEventListener("change",function(){localStorage.setItem("mind-palette",this.value);applyDisplaySettings()});
 $("fontSizeChoice").addEventListener("change",function(){localStorage.setItem("mind-font-size",this.value);applyDisplaySettings()});
+$("resetDisplaySettings").addEventListener("click",function(){
+ localStorage.removeItem("mind-font");localStorage.removeItem("mind-palette");localStorage.removeItem("mind-font-size");applyDisplaySettings();
+});
 applyDisplaySettings();
 
 drawPlan();
