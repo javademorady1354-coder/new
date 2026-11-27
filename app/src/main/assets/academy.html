@@ -20,10 +20,49 @@ input,textarea{width:100%;padding:11px;border:1px solid #526985;border-radius:10
 .day{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #344760;font-size:12px}.day input{width:auto;margin:4px 0;accent-color:#65d6ad}.day label{flex:1}
 footer{text-align:center;color:#8fa3bb;font-size:10px;padding:15px}
 @media(min-width:560px){nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Personal reading display settings */
+.display-settings{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:end}
+.display-settings label{font-size:12px;color:var(--muted)}
+.display-settings select{width:100%;margin:5px 0 0;padding:10px;border:1px solid #526985;border-radius:9px;background:#101d30;color:#fff;font:13px Tahoma}
+body.font-large p,body.font-large li,body.font-large .tip{font-size:16px}
+body.font-large h2{font-size:20px}
+body.font-large h3{font-size:16px}
+@media(max-width:380px){.display-settings{grid-template-columns:1fr}}
+
 </style></head>
 <body><a class="back" href="index.html">‹ منوی اصلی</a><main>
 <header><div class="logo">🧠</div><h1>آموزش و برنامه تمرین ذهن برتر</h1><div class="muted">راهنمای علمیِ واقع‌بینانه و تمرین‌های کوتاهِ قابل انجام بدون اینترنت</div></header>
 <nav><a href="#science">مبانی علمی</a><a href="#memory">حافظه</a><a href="#focus">تمرکز</a><a href="#vision">توجه دیداری</a><a href="#reading">تندخوانی</a><a href="#plan">برنامه ۲۸ روزه</a></nav>
+
+<section class="panel" id="displaySettings">
+<h2>تنظیمات نمایش و مطالعه</h2>
+<p class="muted">نوع قلم و رنگ صفحه و نوشته‌ها را به سلیقه خودت تغییر بده. انتخاب‌ها روی همین دستگاه ذخیره می‌شوند.</p>
+<div class="display-settings">
+<label for="fontChoice">نوع فونت
+<select id="fontChoice">
+<option value="Tahoma,Arial,sans-serif">Tahoma</option>
+<option value="Arial,sans-serif">Arial</option>
+<option value="Georgia,serif">Georgia</option>
+<option value="sans-serif">بدون‌سریف</option>
+<option value="serif">سریف</option>
+</select></label>
+<label for="colorChoice">رنگ‌بندی
+<select id="colorChoice">
+<option value="dark">تیره (پیش‌فرض)</option>
+<option value="light">روشن</option>
+<option value="warm">کرم و گرم</option>
+<option value="green">سبز ملایم</option>
+<option value="blue">آبی تیره</option>
+</select></label>
+<label for="fontSizeChoice">اندازه نوشته
+<select id="fontSizeChoice">
+<option value="normal">معمولی</option>
+<option value="large">درشت</option>
+</select></label>
+</div>
+</section>
+
 <section class="panel" id="science"><h2>۱. مغز چگونه یاد می‌گیرد؟</h2>
 <p>یادگیری زمانی بهتر تثبیت می‌شود که اطلاعات را فقط دوباره نخوانیم، بلکه از حافظه بازیابی کنیم، در فاصله‌های زمانی مرور کنیم و آموخته را به زبان خود توضیح دهیم. تمرین منظم، خواب کافی، تحرک روزانه و استراحت به یادگیری کمک می‌کنند.</p>
 <ul><li><b>بازیابی فعال:</b> کتاب یا متن را ببند و آنچه را به یاد داری بیان یا یادداشت کن.</li><li><b>مرور فاصله‌دار:</b> همان مطلب را پس از یک روز، چند روز و یک هفته دوباره مرور کن.</li><li><b>دسته‌بندی:</b> اطلاعات پراکنده را به گروه‌های کوچک و معنادار تبدیل کن.</li><li><b>پیوندسازی:</b> مطلب تازه را به دانسته‌های قبلی یا یک تصویر ذهنی مرتبط کن.</li><li><b>بازخورد:</b> پاسخ را بررسی کن و اشتباه را بفهم؛ فقط تعداد پاسخ‌ها مهم نیست.</li></ul>
@@ -96,6 +135,37 @@ const tasks=["روز ۱: ۵ دقیقه یادآوری واژه‌ها + یک ب�
 function drawPlan(){let done=JSON.parse(localStorage.getItem("mind-plan-done")||"[]");$("planList").innerHTML="";tasks.forEach(function(task,i){let row=document.createElement("div");row.className="day";let cb=document.createElement("input");cb.type="checkbox";cb.checked=done.indexOf(i)>=0;cb.id="day"+i;cb.addEventListener("change",function(){let list=JSON.parse(localStorage.getItem("mind-plan-done")||"[]");if(cb.checked&&list.indexOf(i)<0)list.push(i);if(!cb.checked)list=list.filter(function(x){return x!==i});localStorage.setItem("mind-plan-done",JSON.stringify(list));updateCount()});let label=document.createElement("label");label.htmlFor=cb.id;label.textContent=task;row.appendChild(cb);row.appendChild(label);$("planList").appendChild(row)});updateCount()}
 function updateCount(){let done=JSON.parse(localStorage.getItem("mind-plan-done")||"[]");$("planCount").textContent=done.length+" از ۲۸"}
 $("planReset").onclick=function(){if(confirm("پیشرفت ۲۸ روزه پاک شود؟")){localStorage.removeItem("mind-plan-done");drawPlan()}};
+
+function applyDisplaySettings(){
+ const font=localStorage.getItem("mind-font")||"Tahoma,Arial,sans-serif";
+ const palette=localStorage.getItem("mind-palette")||"dark";
+ const size=localStorage.getItem("mind-font-size")||"normal";
+ document.body.style.fontFamily=font;
+ document.body.classList.toggle("font-large",size==="large");
+ const palettes={
+  dark:{bg:"#101827",panel:"#1b2a40",ink:"#f5f8fc",muted:"#afbed1",accent:"#65d6ad",line:"#405875"},
+  light:{bg:"#f2f5f9",panel:"#ffffff",ink:"#1b2735",muted:"#526477",accent:"#087f68",line:"#c5d0dc"},
+  warm:{bg:"#f4ead8",panel:"#fff8eb",ink:"#3d3025",muted:"#786652",accent:"#9a5b27",line:"#d8c4a8"},
+  green:{bg:"#eaf2e9",panel:"#f8fff6",ink:"#203528",muted:"#58705e",accent:"#28734a",line:"#bfd4c2"},
+  blue:{bg:"#101d30",panel:"#1b304b",ink:"#eef5ff",muted:"#b3c5dc",accent:"#79baff",line:"#496785"}
+ };
+ const p=palettes[palette]||palettes.dark;
+ const root=document.documentElement;
+ root.style.setProperty("--bg",p.bg);root.style.setProperty("--panel",p.panel);
+ root.style.setProperty("--ink",p.ink);root.style.setProperty("--muted",p.muted);
+ root.style.setProperty("--accent",p.accent);root.style.setProperty("--line",p.line);
+ document.body.style.color=p.ink;
+ document.body.style.background=palette==="dark"?"radial-gradient(circle at top,#263d5b,var(--bg) 65%)":p.bg;
+ document.querySelectorAll(".panel").forEach(function(el){el.style.background=p.panel});
+ ["fontChoice","colorChoice","fontSizeChoice"].forEach(function(id,key){
+  const el=$(id);if(el)el.value=[font,palette,size][key];
+ });
+}
+$("fontChoice").addEventListener("change",function(){localStorage.setItem("mind-font",this.value);applyDisplaySettings()});
+$("colorChoice").addEventListener("change",function(){localStorage.setItem("mind-palette",this.value);applyDisplaySettings()});
+$("fontSizeChoice").addEventListener("change",function(){localStorage.setItem("mind-font-size",this.value);applyDisplaySettings()});
+applyDisplaySettings();
+
 drawPlan();
 })();
 </script></body></html>
