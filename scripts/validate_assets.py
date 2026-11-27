@@ -10,7 +10,7 @@ GAMES = [
     "challenge-mind.html", "number-sequence.html", "eagle-eye.html",
     "color-recognition.html", "multi-point-tracking.html", "odd-shape.html"
 ]
-EXTRA = ("subscription.html", "updates.html", "privacy-policy.html")
+EXTRA = ("subscription.html", "updates.html", "privacy-policy.html", "academy.html")
 
 class AssetParser(HTMLParser):
     def __init__(self):
