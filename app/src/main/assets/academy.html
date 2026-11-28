@@ -44,16 +44,21 @@ body.font-xlarge h3{font-size:19px}
 <div class="display-settings">
 <label for="fontChoice">نوع فونت
 <select id="fontChoice">
-<option value="Tahoma,Arial,sans-serif">Tahoma</option>
+<option value="Tahoma,Arial,sans-serif">Tahoma فارسی</option>
 <option value="Arial,sans-serif">Arial</option>
+<option value="Roboto,Arial,sans-serif">Roboto</option>
+<option value="sans-serif">قلم ساده دستگاه</option>
+<option value="sans-serif-light">قلم نازک دستگاه</option>
+<option value="sans-serif-medium">قلم متوسط دستگاه</option>
+<option value="sans-serif-condensed">قلم فشرده دستگاه</option>
+<option value="sans-serif-black">قلم سنگین دستگاه</option>
+<option value="serif">قلم سریف</option>
 <option value="Georgia,serif">Georgia</option>
-<option value="sans-serif">بدون‌سریف</option>
-<option value="serif">سریف کلاسیک</option>
-<option value="Trebuchet MS, Tahoma, sans-serif">تربوشت</option>
-<option value="Verdana, Tahoma, sans-serif">Verdana</option>
-<option value="Georgia, Tahoma, serif">Georgia فارسی</option>
-<option value="Times New Roman, Tahoma, serif">Times کلاسیک</option>
-<option value="Courier New, monospace">تک‌فاصله</option>
+<option value="Times New Roman,serif">Times New Roman</option>
+<option value="monospace">تک‌فاصله</option>
+<option value="Courier New,monospace">Courier New</option>
+<option value="Trebuchet MS,Tahoma,sans-serif">Trebuchet</option>
+<option value="Verdana,Tahoma,sans-serif">Verdana</option>
 <option value="cursive">دست‌نویس سیستمی</option>
 <option value="fantasy">نمایشی سیستمی</option>
 </select></label>
@@ -109,10 +114,10 @@ body.font-xlarge h3{font-size:19px}
 <p>هدف مطالعه خوب، فهمیدن و به خاطر سپردن است؛ نه فقط رد شدن سریع از کلمات. سرعت مناسب به دشواری متن و هدف مطالعه بستگی دارد. هنگام متن دشوار، آهسته‌خوانی و مکث برای فهمیدن کاملاً درست است.</p>
 <h3>روش سه‌مرحله‌ای</h3><ol><li><b>پیش‌نگری:</b> عنوان‌ها و ساختار متن را نگاه کن و هدف مطالعه را مشخص کن.</li><li><b>خواندن فعال:</b> هر بخش را بخوان و ایده اصلی را در یک جمله بگو.</li><li><b>بازیابی:</b> متن را کنار بگذار و سه نکته مهم را از حافظه بنویس.</li></ol>
 <h3>سنجش زمان مطالعه</h3><p>متن کوتاه زیر را با سرعت طبیعی بخوان. زمان را بگیر و بعد تعداد واژه‌هایی را که واقعاً فهمیدی وارد کن. این ابزار فقط تخمین شخصی است و آزمون استاندارد سرعت خواندن نیست.</p>
-<label for="readingChoice" class="muted">انتخاب متن مطالعه</label><select id="readingChoice"><option value="random">انتخاب اتفاقی</option><option value="0">دانش و یادگیری</option><option value="1">طبیعت و محیط زیست</option><option value="2">تاریخ و تمدن</option><option value="3">سلامت و عادت‌ها</option><option value="4">فناوری و آینده</option><option value="5">اخلاق و همکاری</option></select><div class="row"><button type="button" class="secondary" id="randomReading">متن اتفاقی</button><button type="button" class="secondary" id="nextReading">متن بعدی</button></div>
+<label for="readingChoice" class="muted">انتخاب متن مطالعه</label><select id="readingChoice"><option value="random">انتخاب اتفاقی</option><option value="0">دانش و یادگیری</option><option value="1">طبیعت و محیط زیست</option><option value="2">تاریخ و تمدن</option><option value="3">سلامت و عادت‌ها</option><option value="4">فناوری و آینده</option><option value="5">اخلاق و همکاری</option><option value="6">چرخه آب</option><option value="7">کتابخانه و پژوهش</option><option value="8">کار گروهی</option><option value="9">آسمان شب</option></select><div class="row"><button type="button" class="secondary" id="randomReading">متن اتفاقی</button><button type="button" class="secondary" id="nextReading">متن بعدی</button></div>
 <div class="panel" style="background:#101d30;margin:8px 0"><p id="readingText">یادگیری یک فرایند تدریجی است. وقتی مطلب تازه را با دانسته‌های قبلی پیوند می‌دهیم، فهم آن آسان‌تر می‌شود. پس از مطالعه، چند لحظه مکث کنیم و نکته‌های اصلی را با زبان خودمان توضیح دهیم. مرور کوتاه در روزهای مختلف معمولاً از تکرار طولانی در یک نوبت سودمندتر است. استراحت، خواب کافی و محیط آرام نیز به توجه و یادگیری کمک می‌کنند.</p></div>
 <div class="row"><button id="readStart">شروع زمان‌سنج</button><button class="secondary" id="readStop">پایان</button><div class="stat"><small>زمان</small><strong id="readTime">۰:۰۰</strong></div></div>
-<label for="readWords" class="muted">چند واژه یا نکته را درست فهمیدی؟</label><input id="readWords" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" dir="ltr" maxlength="3" placeholder="مثلاً ۳۵" aria-label="تعداد واژه‌ها یا نکته‌های درست">
+<label for="readWords" class="muted">چند واژه یا نکته را درست فهمیدی؟</label><input id="readWords" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" dir="ltr" maxlength="4" inputmode="numeric" style="font-size:16px;min-height:48px;direction:ltr;text-align:center" placeholder="مثلاً ۳۵" aria-label="تعداد واژه‌ها یا نکته‌های درست">
 <p id="readResult" class="muted" aria-live="polite"></p>
 <div class="tip">از مسابقه با زمان پرهیز کن. اگر سرعت بیشتر باعث کاهش فهم می‌شود، به سرعت طبیعی برگرد. برای متن آموزشی، فهم و یادآوری از عدد سرعت مهم‌تر است.</div>
 </section>
@@ -122,7 +127,7 @@ body.font-xlarge h3{font-size:19px}
 <h3>تقسیم‌بندی هفته‌ها</h3><ul><li><b>هفته اول:</b> آشنایی؛ حافظه ۵ دقیقه، تمرکز ۵ دقیقه، یک بازی دیداری.</li><li><b>هفته دوم:</b> بازیابی فعال و مرور فاصله‌دار؛ زمان تمرین را فقط در صورت راحتی کمی بیشتر کن.</li><li><b>هفته سوم:</b> ترکیب دو مهارت؛ مثلاً مطالعه و سپس یادآوری نکات، یا تمرکز و بازی دیداری.</li><li><b>هفته چهارم:</b> عملکرد خود را با هفته اول مقایسه کن؛ کیفیت پاسخ و میزان فهم را هم در نظر بگیر.</li></ul>
 </section>
 <section class="panel"><h2>۷. سنجش پیشرفت و توصیه‌های پایانی</h2><ul><li>هفته‌ای یک بار در شرایط مشابه، امتیاز بازی‌ها و میزان یادآوری را ثبت و مقایسه کن.</li><li>به جای مقایسه با دیگران، روند خودت را دنبال کن.</li><li>تمرین را کوتاه، منظم و متنوع نگه دار؛ خستگی نشانه نیاز به استراحت است.</li><li>خواب کافی، فعالیت بدنی مناسب، تغذیه متعادل و ارتباط اجتماعی نیز برای سلامت عمومی مغز اهمیت دارند.</li><li>اگر مشکل پایدار حافظه، تمرکز یا بینایی در زندگی روزمره داری، این برنامه جایگزین گفت‌وگو با متخصص نیست.</li></ul><div class="tip">این برنامه آموزشی و تمرینی است؛ ابزار تشخیص پزشکی یا سنجش هوش نیست.</div></section>
-<footer>ذهن برتر • آموزش و تمرین آفلاین • طراح و تدوین‌گر: جواد مرادی • پیشرفت این صفحه فقط روی همین دستگاه ذخیره می‌شود.</footer>
+<footer>ذهن برتر • آموزش و تمرین آفلاین • تولیدکننده و مالک اثر: جواد مرادی طیولا • پیشرفت این صفحه فقط روی همین دستگاه ذخیره می‌شود.</footer>
 </main>
 <script>
 (function(){
@@ -151,7 +156,7 @@ $("readWords").addEventListener("input",function(){let clean=normalizeReadCount(
 function showReadTime(){let m=Math.floor(readSeconds/60),s=readSeconds%60;$("readTime").textContent=m+":"+(s<10?"0":"")+s}
 $("readStart").onclick=function(){readStop();readSeconds=0;showReadTime();$("readResult").textContent="در حال مطالعه با سرعت طبیعی...";readTimer=setInterval(function(){readSeconds++;showReadTime()},1000)};
 $("readStop").onclick=function(){readStop();let count=Math.max(0,Math.min(200,parseInt(normalizeReadCount($("readWords").value),10)||0));if(readSeconds>0){let rate=Math.round(count/(readSeconds/60));$("readResult").textContent="زمان: "+readSeconds+" ثانیه؛ نرخ تقریبی: "+rate+" واژه در دقیقه. فهم متن را نیز با بازگویی نکات بررسی کن.";}else{$("readResult").textContent="ابتدا زمان‌سنج را شروع کن."}};
-const readingTexts=["یادگیری زمانی عمیق‌تر می‌شود که اطلاعات تازه را به دانسته‌های قبلی پیوند دهیم. پس از خواندن هر بخش، مکث کنیم و مفهوم اصلی را با زبان خود توضیح دهیم. مرور فاصله‌دار و خواب کافی به تثبیت آموخته‌ها کمک می‌کند.","درختان با جذب دی‌اکسیدکربن و فراهم کردن زیستگاه برای جانوران، بخشی مهم از چرخه طبیعت هستند. مراقبت از فضای سبز، کاهش زباله و مصرف مسئولانه آب می‌تواند به حفظ محیط زندگی کمک کند.","شهرهای کهن در کنار رودها و مسیرهای بازرگانی شکل می‌گرفتند. مردم با کشاورزی، ساخت ابزار و مبادله کالاها جوامع خود را گسترش دادند. آثار تاریخی، بخشی از تجربه و دانش نسل‌های گذشته را به ما منتقل می‌کنند.","عادت‌های کوچک و پایدار در طول زمان اثرگذارند. استراحت کافی، تحرک متناسب، نوشیدن آب و برنامه‌ریزی واقع‌بینانه می‌توانند به احساس بهتر و تمرکز روزانه کمک کنند. تغییر عادت معمولاً با قدم‌های کوچک آسان‌تر است.","فناوری ابزارهایی برای حل مسئله و ارتباط فراهم می‌کند. استفاده آگاهانه از ابزارهای دیجیتال نیازمند بررسی منبع اطلاعات، حفظ حریم خصوصی و ایجاد تعادل میان زمان آنلاین و فعالیت‌های دیگر است.","همکاری زمانی ثمربخش است که افراد به دیدگاه یکدیگر گوش دهند و مسئولیت‌ها روشن باشد. احترام، گفت‌وگوی آرام و تقسیم منصفانه کارها به گروه کمک می‌کند تا به هدف مشترک نزدیک‌تر شود."];
+const readingTexts=["یادگیری زمانی عمیق‌تر می‌شود که اطلاعات تازه را به دانسته‌های قبلی پیوند دهیم. پس از خواندن هر بخش، مکث کنیم و مفهوم اصلی را با زبان خود توضیح دهیم. مرور فاصله‌دار و خواب کافی به تثبیت آموخته‌ها کمک می‌کند.","درختان با جذب دی‌اکسیدکربن و فراهم کردن زیستگاه برای جانوران، بخشی مهم از چرخه طبیعت هستند. مراقبت از فضای سبز، کاهش زباله و مصرف مسئولانه آب می‌تواند به حفظ محیط زندگی کمک کند.","شهرهای کهن در کنار رودها و مسیرهای بازرگانی شکل می‌گرفتند. مردم با کشاورزی، ساخت ابزار و مبادله کالاها جوامع خود را گسترش دادند. آثار تاریخی، بخشی از تجربه و دانش نسل‌های گذشته را به ما منتقل می‌کنند.","عادت‌های کوچک و پایدار در طول زمان اثرگذارند. استراحت کافی، تحرک متناسب، نوشیدن آب و برنامه‌ریزی واقع‌بینانه می‌توانند به احساس بهتر و تمرکز روزانه کمک کنند. تغییر عادت معمولاً با قدم‌های کوچک آسان‌تر است.","فناوری ابزارهایی برای حل مسئله و ارتباط فراهم می‌کند. استفاده آگاهانه از ابزارهای دیجیتال نیازمند بررسی منبع اطلاعات، حفظ حریم خصوصی و ایجاد تعادل میان زمان آنلاین و فعالیت‌های دیگر است.","همکاری زمانی ثمربخش است که افراد به دیدگاه یکدیگر گوش دهند و مسئولیت‌ها روشن باشد. احترام، گفت‌وگوی آرام و تقسیم منصفانه کارها به گروه کمک می‌کند تا به هدف مشترک نزدیک‌تر شود.","آب در طبیعت پیوسته میان دریاها، ابرها و خشکی‌ها گردش می‌کند. گرمای خورشید باعث تبخیر آب می‌شود و بخار پس از سرد شدن به قطره‌های ریز تبدیل می‌شود. بارش، آب را دوباره به زمین بازمی‌گرداند؛ به همین دلیل حفاظت از منابع آب اهمیت فراوان دارد.","کتابخانه‌ها تنها محل نگهداری کتاب نیستند؛ آن‌ها فضایی برای یادگیری، پژوهش و گفت‌وگو فراهم می‌کنند. دسترسی به منابع معتبر به افراد کمک می‌کند پرسش‌های دقیق‌تری مطرح کنند و پاسخ‌ها را با دیدی سنجیده ارزیابی کنند.","در یک گروه موفق، هدف روشن و وظیفه هر فرد مشخص است. شنیدن نظرهای متفاوت می‌تواند راه‌حل‌های تازه‌ای ایجاد کند. برنامه‌ریزی، احترام متقابل و بازبینی نتیجه کار، همکاری را مؤثرتر می‌سازد.","آسمان شب با تغییر فصل‌ها چهره متفاوتی پیدا می‌کند. مشاهده منظم ستاره‌ها به انسان کمک کرده است حرکت اجرام آسمانی را بهتر بشناسد. ابزارهای علمی امروز اندازه‌گیری و بررسی این پدیده‌ها را دقیق‌تر کرده‌اند."];
 let readingIndex=0;function setReading(i){readingIndex=(i+readingTexts.length)%readingTexts.length;$("readingText").textContent=readingTexts[readingIndex];$("readingChoice").value=String(readingIndex);readStop();readSeconds=0;showReadTime();$("readResult").textContent="متن تازه انتخاب شد؛ پس از مطالعه زمان‌سنج را شروع کن."}
 $("readingChoice").addEventListener("change",function(){if(this.value==="random")setReading(Math.floor(Math.random()*readingTexts.length));else setReading(Number(this.value))});
 $("randomReading").onclick=function(){setReading(Math.floor(Math.random()*readingTexts.length))};$("nextReading").onclick=function(){setReading(readingIndex+1)};
