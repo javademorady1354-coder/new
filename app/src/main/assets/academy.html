@@ -4,6 +4,11 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#101827"><title>آموزش و برنامه تمرین | ذهن برتر</title>
 <style>
+@font-face{font-family:'Vazirmatn Local';src:url('fonts/Vazirmatn-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Shabnam Local';src:url('fonts/Shabnam.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Sahel Local';src:url('fonts/Sahel.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Amiri Local';src:url('fonts/Amiri-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Noto Nastaliq Urdu Local';src:url('fonts/NotoNastaliqUrdu.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
 :root{color-scheme:dark;--bg:#101827;--panel:#1b2a40;--line:#405875;--ink:#f5f8fc;--muted:#afbed1;--accent:#65d6ad;--gold:#ffd166}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at top,#263d5b,var(--bg) 65%);color:var(--ink);font:14px/1.9 Tahoma,Arial,sans-serif;padding:12px}
 main{max-width:760px;margin:auto}.back{position:fixed;top:8px;right:8px;z-index:5;background:#30445f;border:1px solid #526985;border-radius:10px;padding:7px 10px;color:white;text-decoration:none;font-size:11px}
@@ -44,23 +49,15 @@ body.font-xlarge h3{font-size:19px}
 <div class="display-settings">
 <label for="fontChoice">نوع فونت
 <select id="fontChoice">
-<option value="Tahoma,Arial,sans-serif">Tahoma فارسی</option>
+<option value="Vazirmatn Local">وزیرمتن ـ خوانا و امروزی</option>
+<option value="Shabnam Local">شبنم ـ نرم و متعادل</option>
+<option value="Sahel Local">ساحل ـ ساده و خوش‌خوان</option>
+<option value="Noto Nastaliq Urdu Local">نستعلیق ـ Noto (تزئینی)</option>
+<option value="Amiri Local">امیری ـ نسخ سنتی</option>
+<option value="Tahoma,Arial,sans-serif">Tahoma</option>
 <option value="Arial,sans-serif">Arial</option>
-<option value="Roboto,Arial,sans-serif">Roboto</option>
-<option value="sans-serif">قلم ساده دستگاه</option>
-<option value="sans-serif-light">قلم نازک دستگاه</option>
-<option value="sans-serif-medium">قلم متوسط دستگاه</option>
-<option value="sans-serif-condensed">قلم فشرده دستگاه</option>
-<option value="sans-serif-black">قلم سنگین دستگاه</option>
-<option value="serif">قلم سریف</option>
-<option value="Georgia,serif">Georgia</option>
-<option value="Times New Roman,serif">Times New Roman</option>
-<option value="monospace">تک‌فاصله</option>
-<option value="Courier New,monospace">Courier New</option>
-<option value="Trebuchet MS,Tahoma,sans-serif">Trebuchet</option>
-<option value="Verdana,Tahoma,sans-serif">Verdana</option>
-<option value="cursive">دست‌نویس سیستمی</option>
-<option value="fantasy">نمایشی سیستمی</option>
+<option value="serif">سریف دستگاه</option>
+<option value="monospace">تک‌فاصله دستگاه</option>
 </select></label>
 <label for="colorChoice">رنگ‌بندی
 <select id="colorChoice">
@@ -172,6 +169,7 @@ function applyDisplaySettings(){
  const palette=localStorage.getItem("mind-palette")||"dark";
  const size=localStorage.getItem("mind-font-size")||"normal";
  document.body.style.fontFamily=font;
+ document.body.style.lineHeight=font==="Noto Nastaliq Urdu Local"?"2.7":(lineStyle==="loose"?"2.25":lineStyle==="compact"?"1.55":"1.9");
  document.body.classList.toggle("font-large",size==="large");
  document.body.classList.toggle("font-xlarge",size==="xlarge");
  const palettes={
