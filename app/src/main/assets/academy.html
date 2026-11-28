@@ -48,7 +48,14 @@ body.font-xlarge h3{font-size:19px}
 <option value="Arial,sans-serif">Arial</option>
 <option value="Georgia,serif">Georgia</option>
 <option value="sans-serif">بدون‌سریف</option>
-<option value="serif">سریف</option>
+<option value="serif">سریف کلاسیک</option>
+<option value="Trebuchet MS, Tahoma, sans-serif">تربوشت</option>
+<option value="Verdana, Tahoma, sans-serif">Verdana</option>
+<option value="Georgia, Tahoma, serif">Georgia فارسی</option>
+<option value="Times New Roman, Tahoma, serif">Times کلاسیک</option>
+<option value="Courier New, monospace">تک‌فاصله</option>
+<option value="cursive">دست‌نویس سیستمی</option>
+<option value="fantasy">نمایشی سیستمی</option>
 </select></label>
 <label for="colorChoice">رنگ‌بندی
 <select id="colorChoice">
@@ -58,6 +65,10 @@ body.font-xlarge h3{font-size:19px}
 <option value="green">سبز ملایم</option>
 <option value="blue">آبی تیره</option>
 </select></label>
+<label for="fontWeightChoice">ضخامت و حالت خط
+<select id="fontWeightChoice"><option value="300">نازک</option><option value="400" selected>معمولی</option><option value="500">متوسط</option><option value="600">نیمه‌ضخیم</option><option value="700">ضخیم</option><option value="800">خیلی ضخیم</option></select></label>
+<label for="lineStyleChoice">تحریر و فاصله خط
+<select id="lineStyleChoice"><option value="normal">عادی</option><option value="loose">باز و خوانا</option><option value="compact">فشرده</option><option value="italic">مایل</option><option value="spaced">حروف بازتر</option></select></label>
 <label for="fontSizeChoice">اندازه نوشته
 <select id="fontSizeChoice">
 <option value="normal">معمولی</option>
@@ -76,7 +87,8 @@ body.font-xlarge h3{font-size:19px}
 <section class="panel" id="memory"><h2>۲. حافظه و یادآوری</h2>
 <p>حافظه چند مرحله دارد: توجه به اطلاعات، رمزگردانی، نگهداری و بازیابی. اگر هنگام دریافت مطلب حواست جای دیگری باشد، یادآوری آن سخت‌تر می‌شود. تمرین زیر فقط یک سنجش کوتاه و سرگرم‌کننده است.</p>
 <h3>تمرین یادآوری واژه‌ها</h3><p>روی شروع بزن، واژه‌ها را با دقت بخوان و به مدت ۱۵ ثانیه به خاطر بسپار. سپس واژه‌ها پنهان می‌شوند؛ هرچه را یادت مانده با ویرگول بنویس.</p>
-<div class="words" id="memoryWords">برای شروع آماده‌ای؟</div><div class="row"><button id="memoryStart">شروع یادسپاری</button><span class="muted" id="memoryTimer">۱۵ ثانیه</span></div>
+<label for="memoryCount" class="muted">تعداد واژه‌ها</label><select id="memoryCount"><option value="6">۶ واژه</option><option value="8">۸ واژه</option><option value="10">۱۰ واژه</option><option value="12">۱۲ واژه</option></select>
+<div class="words" id="memoryWords">برای شروع آماده‌ای؟</div><div class="row"><button id="memoryStart">انتخاب اتفاقی و شروع</button><span class="muted" id="memoryTimer">۱۵ ثانیه</span></div>
 <div id="recallArea" hidden><input id="recallInput" placeholder="واژه‌هایی را که به یاد داری با ویرگول جدا کن"><button id="memoryCheck">بررسی یادآوری</button></div><p id="memoryResult" class="muted" aria-live="polite"></p>
 <h3>روش‌های روزمره</h3><ul><li>پس از خواندن یک بند، کتاب را ببند و سه نکته اصلی را بازگو کن.</li><li>برای نام‌ها، یک ویژگی یا تصویر ساده به آن‌ها پیوند بده.</li><li>برای حفظ فهرست‌ها، آن‌ها را در چند گروه کوچک دسته‌بندی کن.</li><li>به‌جای یک مرور طولانی، چند مرور کوتاه در روزهای مختلف انجام بده.</li></ul>
 </section>
@@ -97,6 +109,7 @@ body.font-xlarge h3{font-size:19px}
 <p>هدف مطالعه خوب، فهمیدن و به خاطر سپردن است؛ نه فقط رد شدن سریع از کلمات. سرعت مناسب به دشواری متن و هدف مطالعه بستگی دارد. هنگام متن دشوار، آهسته‌خوانی و مکث برای فهمیدن کاملاً درست است.</p>
 <h3>روش سه‌مرحله‌ای</h3><ol><li><b>پیش‌نگری:</b> عنوان‌ها و ساختار متن را نگاه کن و هدف مطالعه را مشخص کن.</li><li><b>خواندن فعال:</b> هر بخش را بخوان و ایده اصلی را در یک جمله بگو.</li><li><b>بازیابی:</b> متن را کنار بگذار و سه نکته مهم را از حافظه بنویس.</li></ol>
 <h3>سنجش زمان مطالعه</h3><p>متن کوتاه زیر را با سرعت طبیعی بخوان. زمان را بگیر و بعد تعداد واژه‌هایی را که واقعاً فهمیدی وارد کن. این ابزار فقط تخمین شخصی است و آزمون استاندارد سرعت خواندن نیست.</p>
+<label for="readingChoice" class="muted">انتخاب متن مطالعه</label><select id="readingChoice"><option value="random">انتخاب اتفاقی</option><option value="0">دانش و یادگیری</option><option value="1">طبیعت و محیط زیست</option><option value="2">تاریخ و تمدن</option><option value="3">سلامت و عادت‌ها</option><option value="4">فناوری و آینده</option><option value="5">اخلاق و همکاری</option></select><div class="row"><button type="button" class="secondary" id="randomReading">متن اتفاقی</button><button type="button" class="secondary" id="nextReading">متن بعدی</button></div>
 <div class="panel" style="background:#101d30;margin:8px 0"><p id="readingText">یادگیری یک فرایند تدریجی است. وقتی مطلب تازه را با دانسته‌های قبلی پیوند می‌دهیم، فهم آن آسان‌تر می‌شود. پس از مطالعه، چند لحظه مکث کنیم و نکته‌های اصلی را با زبان خودمان توضیح دهیم. مرور کوتاه در روزهای مختلف معمولاً از تکرار طولانی در یک نوبت سودمندتر است. استراحت، خواب کافی و محیط آرام نیز به توجه و یادگیری کمک می‌کنند.</p></div>
 <div class="row"><button id="readStart">شروع زمان‌سنج</button><button class="secondary" id="readStop">پایان</button><div class="stat"><small>زمان</small><strong id="readTime">۰:۰۰</strong></div></div>
 <label for="readWords" class="muted">چند واژه یا نکته را درست فهمیدی؟</label><input id="readWords" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false" dir="ltr" maxlength="3" placeholder="مثلاً ۳۵" aria-label="تعداد واژه‌ها یا نکته‌های درست">
@@ -109,16 +122,16 @@ body.font-xlarge h3{font-size:19px}
 <h3>تقسیم‌بندی هفته‌ها</h3><ul><li><b>هفته اول:</b> آشنایی؛ حافظه ۵ دقیقه، تمرکز ۵ دقیقه، یک بازی دیداری.</li><li><b>هفته دوم:</b> بازیابی فعال و مرور فاصله‌دار؛ زمان تمرین را فقط در صورت راحتی کمی بیشتر کن.</li><li><b>هفته سوم:</b> ترکیب دو مهارت؛ مثلاً مطالعه و سپس یادآوری نکات، یا تمرکز و بازی دیداری.</li><li><b>هفته چهارم:</b> عملکرد خود را با هفته اول مقایسه کن؛ کیفیت پاسخ و میزان فهم را هم در نظر بگیر.</li></ul>
 </section>
 <section class="panel"><h2>۷. سنجش پیشرفت و توصیه‌های پایانی</h2><ul><li>هفته‌ای یک بار در شرایط مشابه، امتیاز بازی‌ها و میزان یادآوری را ثبت و مقایسه کن.</li><li>به جای مقایسه با دیگران، روند خودت را دنبال کن.</li><li>تمرین را کوتاه، منظم و متنوع نگه دار؛ خستگی نشانه نیاز به استراحت است.</li><li>خواب کافی، فعالیت بدنی مناسب، تغذیه متعادل و ارتباط اجتماعی نیز برای سلامت عمومی مغز اهمیت دارند.</li><li>اگر مشکل پایدار حافظه، تمرکز یا بینایی در زندگی روزمره داری، این برنامه جایگزین گفت‌وگو با متخصص نیست.</li></ul><div class="tip">این برنامه آموزشی و تمرینی است؛ ابزار تشخیص پزشکی یا سنجش هوش نیست.</div></section>
-<footer>ذهن برتر • آموزش و تمرین آفلاین • پیشرفت این صفحه فقط روی همین دستگاه ذخیره می‌شود.</footer>
+<footer>ذهن برتر • آموزش و تمرین آفلاین • طراح و تدوین‌گر: جواد مرادی • پیشرفت این صفحه فقط روی همین دستگاه ذخیره می‌شود.</footer>
 </main>
 <script>
 (function(){
 const $=function(id){return document.getElementById(id)};
-const wordSets=[["باران","کتاب","سیب","پنجره","دریا","چراغ"],["کوه","مداد","آینه","پرنده","لیوان","باغ"],["ستاره","دفتر","انگور","قایق","ساعت","ابر"]];
+const wordSets=[["باران","کتاب","سیب","پنجره","دریا","چراغ","کوه","مداد","آینه","پرنده","لیوان","باغ"],["ستاره","دفتر","انگور","قایق","ساعت","ابر","جنگل","کلید","گلابی","رودخانه","شمع","دوچرخه"],["بهار","خورشید","قلم","کوهستان","ماهی","فرش","باد","مدرسه","نقشه","گلدان","باران","آسمان"],["انار","دریاچه","ساعت","چراغ","کتابخانه","پرستو","جاده","آینه","پنجره","سیب","قاشق","کفش"],["دوستی","امید","دانش","تلاش","آرامش","مهربانی","هنر","ورزش","طبیعت","خانواده","اندیشه","آینده"],["قطار","هواپیما","قایق","پل","خیابان","میدان","باغچه","درخت","سنگ","ابر","باران","ستاره"]];
 let current=[],memTimer=null,focusTimer=null,readTimer=null,focusLeft=60,readSeconds=0;
 function shuffle(a){return a.slice().sort(function(){return Math.random()-.5})}
 $("memoryStart").onclick=function(){
- clearInterval(memTimer);current=shuffle(wordSets[Math.floor(Math.random()*wordSets.length)]);
+ clearInterval(memTimer);current=shuffle(wordSets[Math.floor(Math.random()*wordSets.length)]).slice(0,Math.max(6,Math.min(12,Number($("memoryCount").value)||6)));
  $("memoryWords").textContent=current.join(" • ");$("recallArea").hidden=true;$("recallInput").value="";$("memoryResult").textContent="";
  let left=15;$("memoryTimer").textContent=left+" ثانیه";$("memoryStart").disabled=true;
  memTimer=setInterval(function(){left--; $("memoryTimer").textContent=left+" ثانیه";if(left<=0){clearInterval(memTimer);$("memoryWords").textContent="حالا هرچه به یاد داری بنویس";$("recallArea").hidden=false;$("memoryStart").disabled=false;$("memoryTimer").textContent="پایان زمان یادسپاری";}},1000);
@@ -138,6 +151,10 @@ $("readWords").addEventListener("input",function(){let clean=normalizeReadCount(
 function showReadTime(){let m=Math.floor(readSeconds/60),s=readSeconds%60;$("readTime").textContent=m+":"+(s<10?"0":"")+s}
 $("readStart").onclick=function(){readStop();readSeconds=0;showReadTime();$("readResult").textContent="در حال مطالعه با سرعت طبیعی...";readTimer=setInterval(function(){readSeconds++;showReadTime()},1000)};
 $("readStop").onclick=function(){readStop();let count=Math.max(0,Math.min(200,parseInt(normalizeReadCount($("readWords").value),10)||0));if(readSeconds>0){let rate=Math.round(count/(readSeconds/60));$("readResult").textContent="زمان: "+readSeconds+" ثانیه؛ نرخ تقریبی: "+rate+" واژه در دقیقه. فهم متن را نیز با بازگویی نکات بررسی کن.";}else{$("readResult").textContent="ابتدا زمان‌سنج را شروع کن."}};
+const readingTexts=["یادگیری زمانی عمیق‌تر می‌شود که اطلاعات تازه را به دانسته‌های قبلی پیوند دهیم. پس از خواندن هر بخش، مکث کنیم و مفهوم اصلی را با زبان خود توضیح دهیم. مرور فاصله‌دار و خواب کافی به تثبیت آموخته‌ها کمک می‌کند.","درختان با جذب دی‌اکسیدکربن و فراهم کردن زیستگاه برای جانوران، بخشی مهم از چرخه طبیعت هستند. مراقبت از فضای سبز، کاهش زباله و مصرف مسئولانه آب می‌تواند به حفظ محیط زندگی کمک کند.","شهرهای کهن در کنار رودها و مسیرهای بازرگانی شکل می‌گرفتند. مردم با کشاورزی، ساخت ابزار و مبادله کالاها جوامع خود را گسترش دادند. آثار تاریخی، بخشی از تجربه و دانش نسل‌های گذشته را به ما منتقل می‌کنند.","عادت‌های کوچک و پایدار در طول زمان اثرگذارند. استراحت کافی، تحرک متناسب، نوشیدن آب و برنامه‌ریزی واقع‌بینانه می‌توانند به احساس بهتر و تمرکز روزانه کمک کنند. تغییر عادت معمولاً با قدم‌های کوچک آسان‌تر است.","فناوری ابزارهایی برای حل مسئله و ارتباط فراهم می‌کند. استفاده آگاهانه از ابزارهای دیجیتال نیازمند بررسی منبع اطلاعات، حفظ حریم خصوصی و ایجاد تعادل میان زمان آنلاین و فعالیت‌های دیگر است.","همکاری زمانی ثمربخش است که افراد به دیدگاه یکدیگر گوش دهند و مسئولیت‌ها روشن باشد. احترام، گفت‌وگوی آرام و تقسیم منصفانه کارها به گروه کمک می‌کند تا به هدف مشترک نزدیک‌تر شود."];
+let readingIndex=0;function setReading(i){readingIndex=(i+readingTexts.length)%readingTexts.length;$("readingText").textContent=readingTexts[readingIndex];$("readingChoice").value=String(readingIndex);readStop();readSeconds=0;showReadTime();$("readResult").textContent="متن تازه انتخاب شد؛ پس از مطالعه زمان‌سنج را شروع کن."}
+$("readingChoice").addEventListener("change",function(){if(this.value==="random")setReading(Math.floor(Math.random()*readingTexts.length));else setReading(Number(this.value))});
+$("randomReading").onclick=function(){setReading(Math.floor(Math.random()*readingTexts.length))};$("nextReading").onclick=function(){setReading(readingIndex+1)};
 const tasks=["روز ۱: ۵ دقیقه یادآوری واژه‌ها + یک بازی ذهنی","روز ۲: خواندن یک بند و بازگویی سه نکته","روز ۳: یک دقیقه تمرکز + بازی چشم عقاب","روز ۴: مرور فاصله‌دار یک مطلب قدیمی","روز ۵: مطالعه فعال و یادداشت نکته اصلی","روز ۶: استراحت یا مرور سبک","روز ۷: استراحت","روز ۸: یادآوری ۶ واژه و بررسی نتیجه","روز ۹: دسته‌بندی یک فهرست به گروه‌های کوچک","روز ۱۰: تمرین تمرکز و بازگشت توجه","روز ۱۱: بازی ترتیب اعداد با دقت، نه عجله","روز ۱۲: مطالعه و بازگویی نکته‌ها","روز ۱۳: استراحت یا مرور سبک","روز ۱۴: استراحت","روز ۱۵: مرور فاصله‌دار و پیوندسازی","روز ۱۶: تمرین حافظه و یادآوری بدون نگاه","روز ۱۷: یک بازی توجه دیداری و استراحت چشم","روز ۱۸: مطالعه فعال یک متن کوتاه","روز ۱۹: تمرکز روی یک کار ۱۰ دقیقه‌ای","روز ۲۰: استراحت یا مرور سبک","روز ۲۱: استراحت","روز ۲۲: ترکیب مطالعه و بازیابی فعال","روز ۲۳: تمرین حافظه با دسته‌بندی","روز ۲۴: تمرین توجه و جست‌وجوی دیداری","روز ۲۵: مطالعه با هدف فهم، نه رکورد سرعت","روز ۲۶: استراحت یا مرور سبک","روز ۲۷: تکرار تمرین روز اول و مقایسه","روز ۲۸: مرور پیشرفت و انتخاب عادت‌های مفید"];
 function drawPlan(){let done=JSON.parse(localStorage.getItem("mind-plan-done")||"[]");$("planList").innerHTML="";tasks.forEach(function(task,i){let row=document.createElement("div");row.className="day";let cb=document.createElement("input");cb.type="checkbox";cb.checked=done.indexOf(i)>=0;cb.id="day"+i;cb.addEventListener("change",function(){let list=JSON.parse(localStorage.getItem("mind-plan-done")||"[]");if(cb.checked&&list.indexOf(i)<0)list.push(i);if(!cb.checked)list=list.filter(function(x){return x!==i});localStorage.setItem("mind-plan-done",JSON.stringify(list));updateCount()});let label=document.createElement("label");label.htmlFor=cb.id;label.textContent=task;row.appendChild(cb);row.appendChild(label);$("planList").appendChild(row)});updateCount()}
 function updateCount(){let done=JSON.parse(localStorage.getItem("mind-plan-done")||"[]");$("planCount").textContent=done.length+" از ۲۸"}
@@ -145,6 +162,8 @@ $("planReset").onclick=function(){if(confirm("پیشرفت ۲۸ روزه پاک 
 
 function applyDisplaySettings(){
  const font=localStorage.getItem("mind-font")||"Tahoma,Arial,sans-serif";
+ const weight=localStorage.getItem("mind-font-weight")||"400";const lineStyle=localStorage.getItem("mind-line-style")||"normal";
+ document.body.style.fontWeight=weight;document.body.style.lineHeight=lineStyle==="loose"?"2.25":lineStyle==="compact"?"1.55":"1.9";document.body.style.letterSpacing=lineStyle==="spaced"?"1.2px":"0";document.body.style.fontStyle=lineStyle==="italic"?"italic":"normal";
  const palette=localStorage.getItem("mind-palette")||"dark";
  const size=localStorage.getItem("mind-font-size")||"normal";
  document.body.style.fontFamily=font;
@@ -165,16 +184,16 @@ function applyDisplaySettings(){
  document.body.style.color=p.ink;
  document.body.style.background=palette==="dark"?"radial-gradient(circle at top,#263d5b,var(--bg) 65%)":p.bg;
  document.querySelectorAll(".panel").forEach(function(el){el.style.background=p.panel});
- ["fontChoice","colorChoice","fontSizeChoice"].forEach(function(id,key){
-  const el=$(id);if(el)el.value=[font,palette,size][key];
- });
+ ["fontChoice","colorChoice","fontSizeChoice","fontWeightChoice","lineStyleChoice"].forEach(function(id,key){const el=$(id);if(el)el.value=[font,palette,size,weight,lineStyle][key]});
 }
 $("fontChoice").addEventListener("change",function(){localStorage.setItem("mind-font",this.value);applyDisplaySettings()});
 $("colorChoice").addEventListener("change",function(){localStorage.setItem("mind-palette",this.value);applyDisplaySettings()});
 $("fontSizeChoice").addEventListener("change",function(){localStorage.setItem("mind-font-size",this.value);applyDisplaySettings()});
 $("resetDisplaySettings").addEventListener("click",function(){
- localStorage.removeItem("mind-font");localStorage.removeItem("mind-palette");localStorage.removeItem("mind-font-size");applyDisplaySettings();
+ localStorage.removeItem("mind-font");localStorage.removeItem("mind-palette");localStorage.removeItem("mind-font-size");localStorage.removeItem("mind-font-weight");localStorage.removeItem("mind-line-style");applyDisplaySettings();
 });
+$("fontWeightChoice").addEventListener("change",function(){localStorage.setItem("mind-font-weight",this.value);applyDisplaySettings()});
+$("lineStyleChoice").addEventListener("change",function(){localStorage.setItem("mind-line-style",this.value);applyDisplaySettings()});
 applyDisplaySettings();
 
 drawPlan();
